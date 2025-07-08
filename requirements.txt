@@ -1,0 +1,27 @@
+# Core dependencies
+torch>=2.0.0
+transformers>=4.30.0
+peft>=0.4.0
+accelerate>=0.20.0
+bitsandbytes>=0.40.0
+huggingface_hub>=0.16.0
+safetensors>=0.3.1
+sentencepiece>=0.1.99
+protobuf>=3.20.0
+tqdm>=4.65.0
+
+# For evaluation
+datasets>=2.12.0
+evaluate>=0.4.0
+scikit-learn>=1.2.2
+nltk>=3.8.1
+
+# For logging
+wandb>=0.15.0
+
+# For visualization
+matplotlib>=3.7.1
+seaborn>=0.12.2
+
+# Optional: For better performance with large models
+flash-attn>=2.0.0; platform_system != "Windows"

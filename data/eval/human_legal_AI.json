@@ -1,0 +1,207 @@
+{
+    "dataset": "human_legal_AI",
+    "dev": [
+        {
+            "prompt": "How are AI-driven predictive analytics changing the landscape of litigation strategy?",
+            "id": 0
+        },
+        {
+            "prompt": "In what ways should the development and deployment of AI in the legal sector be regulated to prevent misuse and protect public interest?",
+            "id": 2
+        },
+        {
+            "prompt": "In what ways can AI foster greater access to legal services and justice for underserved populations or individuals with limited resources?",
+            "id": 4
+        },
+        {
+            "prompt": "In what ways might AI tools inadvertently perpetuate existing biases within the legal system, and what steps can be taken to prevent this?",
+            "id": 6
+        },
+        {
+            "prompt": "What are the primary obstacles that law firms face when integrating AI technologies into their practice, and how do these challenges differ between small and large firms?",
+            "id": 8
+        },
+        {
+            "prompt": "What are the ethical implications of relying on AI for predictive analytics in the courtroom, particularly regarding the accuracy and potential manipulation of data?",
+            "id": 10
+        },
+        {
+            "prompt": "How can AI technologies enhance the collaboration between legal teams by providing real-time insights, analytics, and communication tools during case preparation and trial?",
+            "id": 12
+        },
+        {
+            "prompt": "How can AI-powered e-discovery tools streamline the litigation process and reduce the time and cost involved in reviewing large volumes of documents?",
+            "id": 14
+        },
+        {
+            "prompt": "What are the potential advantages of using AI for contract review and analysis in terms of speed, consistency, and error reduction?",
+            "id": 16
+        },
+        {
+            "prompt": "What are the potential economic impacts of widespread AI adoption in the legal industry, particularly concerning job displacement and the future roles of human legal professionals?",
+            "id": 18
+        },
+        {
+            "prompt": "Describe the process of training an LLM with legal-specific corpora to enhance its effectiveness in understanding and generating legal text.",
+            "id": 20
+        },
+        {
+            "prompt": "How can continuous ethical oversight be implemented in the development and application of legal AI to anticipate and address emerging ethical concerns?",
+            "id": 22
+        },
+        {
+            "prompt": "How has the integration of AI in legal research transformed the efficiency and accuracy of case law analysis?",
+            "id": 24
+        },
+        {
+            "prompt": "How can the legal industry foster a culture of continuous learning and adaptation to overcome the resistance to AI adoption among legal professionals?",
+            "id": 26
+        },
+        {
+            "prompt": "How can AI-driven legal research tools enhance the accuracy and efficiency of legal professionals in finding relevant case law and statutes?",
+            "id": 28
+        },
+        {
+            "prompt": "Discuss the potential impact of AI on the role of paralegals and junior attorneys in law firms.",
+            "id": 30
+        },
+        {
+            "prompt": "What ethical issues arise from the use of AI-driven tools in legal decision-making, and how can they be mitigated?",
+            "id": 32
+        },
+        {
+            "prompt": "How can transparency and explainability of AI systems be ensured to maintain trust and accountability in legal applications?",
+            "id": 34
+        },
+        {
+            "prompt": "In what ways might the use of AI in legal contexts compromise client confidentiality and how can these risks be mitigated?",
+            "id": 36
+        },
+        {
+            "prompt": "What measures should be taken to ensure that AI-driven legal tools are accessible and do not reinforce existing inequalities in access to legal services?",
+            "id": 38
+        },
+        {
+            "prompt": "How can AI tools improve the efficiency of legal administrative tasks such as client intake, case management, and billing in law firms?",
+            "id": 40
+        },
+        {
+            "prompt": "Detail the approach for using an LLM to generate predictive recommendations for case outcomes based on historical legal data and case precedents.",
+            "id": 42
+        },
+        {
+            "prompt": "Outline the procedure for integrating an LLM with existing legal management systems to streamline workflow and increase productivity.",
+            "id": 44
+        },
+        {
+            "prompt": "What challenges do law firms face in adopting AI technologies, and what strategies can they implement to overcome these hurdles?",
+            "id": 46
+        },
+        {
+            "prompt": "How can AI assist in the discovery phase (e-discovery) of litigation, and what are the limitations of current technologies?",
+            "id": 48
+        }
+    ],
+    "test": [
+        {
+            "prompt": "How can natural language processing (NLP) technology enhance the drafting and review processes for legal documents, ensuring precision and compliance?",
+            "id": 1
+        },
+        {
+            "prompt": "What are the potential privacy and data security challenges associated with using AI in legal applications, and how can law firms mitigate these risks?",
+            "id": 3
+        },
+        {
+            "prompt": "What are the ethical considerations surrounding the use of AI in sensitive legal matters, and how can they be balanced with the need for technological advancement?",
+            "id": 5
+        },
+        {
+            "prompt": "How can legal professionals balance the benefits of AI with the need to uphold fundamental principles of justice, including fairness and due process?",
+            "id": 7
+        },
+        {
+            "prompt": "What are the ethical challenges of using AI for client interaction and advice, and how can the integrity of legal counsel be maintained?",
+            "id": 9
+        },
+        {
+            "prompt": "Examine the implications of AI in legal compliance and regulatory monitoring for businesses.",
+            "id": 11
+        },
+        {
+            "prompt": "Discuss the steps involved in implementing an LLM for automated legal research, highlighting how it can search and summarize relevant case laws and statutes.",
+            "id": 13
+        },
+        {
+            "prompt": "Investigate how LLMs can be utilized in client intake processes to understand the client's issue and suggest the appropriate legal services or documentation required.",
+            "id": 15
+        },
+        {
+            "prompt": "How can AI developers and legal professionals work together to create transparent and explainable AI systems that foster trust and confidence among users and clients?",
+            "id": 17
+        },
+        {
+            "prompt": "Explain how LLMs can enhance litigation support by producing real-time insights and strategies derived from analyzing similar past cases.",
+            "id": 19
+        },
+        {
+            "prompt": "Analyze the potential for bias in AI legal tools and the measures that can be taken to ensure fairness and objectivity.",
+            "id": 21
+        },
+        {
+            "prompt": "In what ways can AI improve contract review and management processes in legal practice?",
+            "id": 23
+        },
+        {
+            "prompt": "How can the legal profession ensure that AI tools comply with evolving regulations and standards governing their use?",
+            "id": 25
+        },
+        {
+            "prompt": "What role do interdisciplinary collaborations (between legal experts, technologists, ethicists, etc.) play in addressing the challenges of implementing AI in the legal field?",
+            "id": 27
+        },
+        {
+            "prompt": "Detail the strategy for employing an LLM to ensure compliance with diverse jurisdictional laws during multi-jurisdictional legal practice, including language translation and local law adaptation.",
+            "id": 29
+        },
+        {
+            "prompt": "In what ways can AI assist in predicting case outcomes, and how might this impact legal strategy and decision-making for law firms and their clients?",
+            "id": 31
+        },
+        {
+            "prompt": "Describe the role of natural language processing (NLP) in AI applications for legal document drafting and review.",
+            "id": 33
+        },
+        {
+            "prompt": "How can the legal industry address concerns about the accuracy and reliability of AI-generated legal documents and recommendations?",
+            "id": 35
+        },
+        {
+            "prompt": "How can the legal industry address potential biases in AI algorithms that may lead to unfair or discriminatory outcomes in legal decisions?",
+            "id": 37
+        },
+        {
+            "prompt": "Describe the method for leveraging an LLM to create a knowledge management system within a law firm, categorizing and retrieving information efficiently.",
+            "id": 39
+        },
+        {
+            "prompt": "Explain how an LLM can be used to automate the drafting of legal documents, such as contracts and briefs, ensuring accuracy and compliance with relevant laws.",
+            "id": 41
+        },
+        {
+            "prompt": "What benefits does AI offer in the realm of compliance monitoring and regulation adherence for businesses and legal practitioners?",
+            "id": 43
+        },
+        {
+            "prompt": "What ethical considerations arise from the potential displacement of legal professionals due to increased AI automation, and how should the industry respond?",
+            "id": 45
+        },
+        {
+            "prompt": "Illustrate how an LLM can assist in legal due diligence by analyzing extensive documents and identifying pertinent information quickly.",
+            "id": 47
+        },
+        {
+            "prompt": "What role can AI play in facilitating knowledge management within a law firm, and how does it improve information retrieval and utilization?",
+            "id": 49
+        }
+    ]
+}

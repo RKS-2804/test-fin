@@ -1,0 +1,207 @@
+{
+    "dataset": "human_finance",
+    "dev": [
+        {
+            "prompt": "In what ways did the subprime mortgage market and associated financial products exacerbate the financial instability in 2008?",
+            "id": 0
+        },
+        {
+            "prompt": "How did the Federal Reserve respond to the financial crisis of 2008, and what were the long-term impacts of its actions?",
+            "id": 2
+        },
+        {
+            "prompt": "How have changes in financial regulations since 2008, such as the Dodd-Frank Act, addressed the root causes of the financial crisis, and what challenges remain?",
+            "id": 4
+        },
+        {
+            "prompt": "In what ways can the Federal Reserve's decisions on interest rates affect the broader economy, including consumer spending and business investments?",
+            "id": 6
+        },
+        {
+            "prompt": "What strategies should I use to teach my children about financial responsibility and ensure they grow up with a solid understanding of money management?",
+            "id": 8
+        },
+        {
+            "prompt": "How do global economic events influence stock market trends and investor behavior?",
+            "id": 10
+        },
+        {
+            "prompt": "What strategies can I employ to diversify my investment portfolio to balance risk and return effectively?",
+            "id": 12
+        },
+        {
+            "prompt": "What were the key regulatory failures that allowed the financial crisis to unfold, and what lessons have been learned since then?",
+            "id": 14
+        },
+        {
+            "prompt": "What strategies can first-time homebuyers use to navigate a competitive housing market?",
+            "id": 16
+        },
+        {
+            "prompt": "What role did rating agencies play in the financial crisis, and how has their role evolved in the aftermath?",
+            "id": 18
+        },
+        {
+            "prompt": "How should I approach creating a budget to ensure I can save for both short-term needs and long-term goals like retirement or purchasing a home?",
+            "id": 20
+        },
+        {
+            "prompt": "How do emerging technologies and industries shape the future of the stock market?",
+            "id": 22
+        },
+        {
+            "prompt": "What role does the Federal Reserve play in regulating and supervising financial institutions, and why is this role important for overall financial stability?",
+            "id": 24
+        },
+        {
+            "prompt": "What are the advantages and disadvantages of passive versus active stock market investing?",
+            "id": 26
+        },
+        {
+            "prompt": "How does stock market volatility affect long-term investment planning?",
+            "id": 28
+        },
+        {
+            "prompt": "In what ways can government policies impact stock market performance?",
+            "id": 30
+        },
+        {
+            "prompt": "How does the Federal Reserve communicate its policy decisions to the public and financial markets, and why is transparency important?",
+            "id": 32
+        },
+        {
+            "prompt": "What are the pros and cons of investing in real estate compared to traditional stock market investments?",
+            "id": 34
+        },
+        {
+            "prompt": "How do the Federal Reserve's actions influence the global economy, and what are the implications for international financial markets?",
+            "id": 36
+        },
+        {
+            "prompt": "How did the collapse of Lehman Brothers contribute to the escalation of the financial crisis?",
+            "id": 38
+        },
+        {
+            "prompt": "How does the Federal Reserve's dual mandate of maximizing employment and stabilizing prices influence its monetary policy decisions?",
+            "id": 40
+        },
+        {
+            "prompt": "What are the key indicators that signal the health of the housing market?",
+            "id": 42
+        },
+        {
+            "prompt": "How do different types of stock indices reflect the health of various portions of the economy?",
+            "id": 44
+        },
+        {
+            "prompt": "How does the rental market intersect with the home-buying market, and what are the implications for each?",
+            "id": 46
+        },
+        {
+            "prompt": "How do interest rates impact the housing market and home affordability?",
+            "id": 48
+        }
+    ],
+    "test": [
+        {
+            "prompt": "What factors should I consider when deciding between paying off high-interest debt and investing my extra income?",
+            "id": 1
+        },
+        {
+            "prompt": "What factors contribute to housing market bubbles and subsequent crashes?",
+            "id": 3
+        },
+        {
+            "prompt": "How does the structure and governance of the Federal Reserve ensure its independence, and why is this independence crucial for effective monetary policy?",
+            "id": 5
+        },
+        {
+            "prompt": "Can you explain the benefits and potential pitfalls of using credit cards as a financial tool, and how I can maximize the benefits?",
+            "id": 7
+        },
+        {
+            "prompt": "What role do demographic changes play in shaping housing market trends?",
+            "id": 9
+        },
+        {
+            "prompt": "What are the ethical considerations that companies should adhere to when they go public?",
+            "id": 11
+        },
+        {
+            "prompt": "How can government policies influence housing supply and demand?",
+            "id": 13
+        },
+        {
+            "prompt": "In what ways did the 2008 financial crisis change the landscape of the banking and financial services industry?",
+            "id": 15
+        },
+        {
+            "prompt": "In what ways can technology and innovation disrupt traditional real estate practices?",
+            "id": 17
+        },
+        {
+            "prompt": "How can I optimize my tax situation through strategic investments and retirement contributions while staying within legal and ethical boundaries?",
+            "id": 19
+        },
+        {
+            "prompt": "What is the significance of the Federal Reserve's balance sheet, and how does its composition influence monetary policy?",
+            "id": 21
+        },
+        {
+            "prompt": "How do geographic and regional differences affect housing market dynamics?",
+            "id": 23
+        },
+        {
+            "prompt": "What tools does the Federal Reserve use to manage inflation, and how effective are these tools in different economic conditions?",
+            "id": 25
+        },
+        {
+            "prompt": "How do psychological factors and investor sentiment play a role in stock market fluctuations?",
+            "id": 27
+        },
+        {
+            "prompt": "What strategies can investors use to evaluate the potential of a particular stock?",
+            "id": 29
+        },
+        {
+            "prompt": "What steps should I take to prepare financially for unexpected life events, such as job loss or medical emergencies?",
+            "id": 31
+        },
+        {
+            "prompt": "How did the 2008 financial crisis impact different socioeconomic groups, and what were the long-term consequences for income inequality?",
+            "id": 33
+        },
+        {
+            "prompt": "How did the interconnectedness of global financial institutions contribute to the widespread impact of the 2008 financial crisis?",
+            "id": 35
+        },
+        {
+            "prompt": "What are the key considerations when determining how much life insurance coverage I need, and what type of policy is best?",
+            "id": 37
+        },
+        {
+            "prompt": "In what ways can individual investors protect themselves during a market downturn?",
+            "id": 39
+        },
+        {
+            "prompt": "What were the primary factors that led to the 2008 financial crisis, and how did they interrelate?",
+            "id": 41
+        },
+        {
+            "prompt": "How do changes in the economy, such as employment rates and wage growth, affect housing prices?",
+            "id": 43
+        },
+        {
+            "prompt": "How did government interventions, such as the Troubled Asset Relief Program (TARP), help to stabilize the financial system during the crisis?",
+            "id": 45
+        },
+        {
+            "prompt": "How do I evaluate whether refinancing my mortgage is a good decision for my financial situation?",
+            "id": 47
+        },
+        {
+            "prompt": "What are the potential risks associated with the Federal Reserve's unconventional monetary policies, such as quantitative easing?",
+            "id": 49
+        }
+    ]
+}

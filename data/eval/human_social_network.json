@@ -1,0 +1,207 @@
+{
+    "dataset": "human_social_network",
+    "dev": [
+        {
+            "prompt": "In what ways do Reddit's upvote and downvote systems impact the visibility and perceived credibility of information shared on the site?",
+            "id": 0
+        },
+        {
+            "prompt": "How has Facebook's role as a social networking platform evolved over the years, and what factors have driven these changes?",
+            "id": 2
+        },
+        {
+            "prompt": "How effective are Twitter's automated systems in identifying and removing inappropriate content, and what are their limitations?",
+            "id": 4
+        },
+        {
+            "prompt": "How do Twitter's content moderation practices compare to those of other social media platforms, and what lessons can be shared across the industry?",
+            "id": 6
+        },
+        {
+            "prompt": "What is the impact of Twitter bots on social movements and grassroots activism, and can they be leveraged for positive social change?",
+            "id": 8
+        },
+        {
+            "prompt": "How do Twitter bots affect the dynamics of political campaigns and public opinion, particularly during elections or major political events?",
+            "id": 10
+        },
+        {
+            "prompt": "I'm intereted in the Marvel universe, please recommend some Twitter accounts in this domain.",
+            "id": 12
+        },
+        {
+            "prompt": "How do influencers and public figures utilize Twitter differently compared to the average user?",
+            "id": 14
+        },
+        {
+            "prompt": "How does Instagram's visual-centric approach influence the way users engage with content and perceive authenticity online?",
+            "id": 16
+        },
+        {
+            "prompt": "I'm intereted in crypto, please recommend some Twitter accounts in this domain.",
+            "id": 18
+        },
+        {
+            "prompt": "How do Twitter's content moderation policies balance the need for free speech with the necessity of preventing harmful content?",
+            "id": 20
+        },
+        {
+            "prompt": "What ethical dilemmas arise from the use of automated Twitter bots in social media interactions, and how should these be addressed?",
+            "id": 22
+        },
+        {
+            "prompt": "I'm intereted in NBA, please recommend some Twitter accounts in this domain.",
+            "id": 24
+        },
+        {
+            "prompt": "In what ways does the use of hashtags on Twitter shape online communities and conversations?",
+            "id": 26
+        },
+        {
+            "prompt": "How can one distinguish between a well-designed Twitter bot and a genuine human user, and what are the implications of failing to do so?",
+            "id": 28
+        },
+        {
+            "prompt": "I'm intereted in investigative reporting, please recommend some Twitter accounts in this domain.",
+            "id": 30
+        },
+        {
+            "prompt": "What impact does Twitter have on political discourse and public opinion formation?",
+            "id": 32
+        },
+        {
+            "prompt": "In what ways might Twitter's content moderation policies influence the spread of political misinformation and public discourse?",
+            "id": 34
+        },
+        {
+            "prompt": "How can Twitter\u2019s algorithm and policies be improved to better detect and manage the presence of malicious or spammy bots?",
+            "id": 36
+        },
+        {
+            "prompt": "How does Twitter handle content moderation for sensitive topics such as mental health, suicide, and self-harm?",
+            "id": 38
+        },
+        {
+            "prompt": "How do features like Stories, Reels, and IGTV shape the content creation strategies of influencers, brands, and everyday users on Instagram?",
+            "id": 40
+        },
+        {
+            "prompt": "How do Twitter bots contribute to the spread of misinformation and what measures can be taken to mitigate their influence?",
+            "id": 42
+        },
+        {
+            "prompt": "How can Twitter improve transparency around their decision-making process when it comes to content removal and account suspensions?",
+            "id": 44
+        },
+        {
+            "prompt": "In what ways do users leverage Twitter for professional networking and career development?",
+            "id": 46
+        },
+        {
+            "prompt": "In what ways has Instagram affected the traditional understanding of beauty standards and body image, and how are users and influencers responding to these impacts?",
+            "id": 48
+        }
+    ],
+    "test": [
+        {
+            "prompt": "How has Reddit served as a platform for grassroots movements and community-driven initiatives, and what factors contribute to their success or failure?",
+            "id": 1
+        },
+        {
+            "prompt": "In what ways has Facebook influenced how communities and social groups organize and interact, both online and offline?",
+            "id": 3
+        },
+        {
+            "prompt": "How do moderators on Reddit balance the need for open discussion with maintaining community standards and preventing harmful content?",
+            "id": 5
+        },
+        {
+            "prompt": "How do Twitter's trending topics reflect cultural and societal changes over time?",
+            "id": 7
+        },
+        {
+            "prompt": "I'm intereted in pop music, please recommend some Twitter accounts in this domain.",
+            "id": 9
+        },
+        {
+            "prompt": "How has the evolution of Twitter's interface influenced user behavior and engagement on the platform?",
+            "id": 11
+        },
+        {
+            "prompt": "I'm intereted in finance, please recommend some Twitter accounts in this domain.",
+            "id": 13
+        },
+        {
+            "prompt": "How do the unique structure and culture of Reddit's subreddits influence the quality and diversity of discussions on the platform?",
+            "id": 15
+        },
+        {
+            "prompt": "What are the ethical implications of Twitter's ability to shape public opinion through content moderation, and how should the platform address these concerns?",
+            "id": 17
+        },
+        {
+            "prompt": "What are the primary technological methods used to create and deploy Twitter bots, and how do these methods differ based on the bot\u2019s intended function?",
+            "id": 19
+        },
+        {
+            "prompt": "What role has Twitter played in the spread of information during significant global events?",
+            "id": 21
+        },
+        {
+            "prompt": "How can businesses effectively use Twitter as part of their marketing and customer service strategies?",
+            "id": 23
+        },
+        {
+            "prompt": "I'm intereted in US politics, please recommend some Twitter accounts in this domain.",
+            "id": 25
+        },
+        {
+            "prompt": "What are the main security risks associated with Twitter bots, and how can users protect themselves from potential threats?",
+            "id": 27
+        },
+        {
+            "prompt": "I'm intereted in meditation, please recommend some Twitter accounts in this domain.",
+            "id": 29
+        },
+        {
+            "prompt": "How have Twitter bots evolved over time, and in what ways have their capabilities and roles on the platform changed?",
+            "id": 31
+        },
+        {
+            "prompt": "How have Twitter's policies on content moderation affected public perception and user trust?",
+            "id": 33
+        },
+        {
+            "prompt": "In what ways can Twitter bots be beneficial for businesses and marketing strategies, and how can companies ensure they're using them ethically?",
+            "id": 35
+        },
+        {
+            "prompt": "I'm intereted in AI, please recommend some Twitter accounts in this domain.",
+            "id": 37
+        },
+        {
+            "prompt": "How do Facebook's data privacy practices and controversies impact user trust and engagement on the platform?",
+            "id": 39
+        },
+        {
+            "prompt": "What role do human moderators play in Twitter's content moderation strategy, and how do their actions differ from those of automated systems?",
+            "id": 41
+        },
+        {
+            "prompt": "What are some of the most significant challenges Twitter faces in moderating content across different cultural and legal contexts?",
+            "id": 43
+        },
+        {
+            "prompt": "In what ways can Twitter engage with its user community to create more effective and community-aligned content moderation policies?",
+            "id": 45
+        },
+        {
+            "prompt": "What ethical considerations arise from the data collection and privacy practices on Twitter?",
+            "id": 47
+        },
+        {
+            "prompt": "I'm intereted in NFL, please recommend some Twitter accounts in this domain.",
+            "id": 49
+        }
+    ]
+}

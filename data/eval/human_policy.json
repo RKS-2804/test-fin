@@ -1,0 +1,207 @@
+{
+    "dataset": "human_policy",
+    "dev": [
+        {
+            "prompt": "How can policymakers ensure that the transition to renewable energy sources is both equitable and efficient?",
+            "id": 0
+        },
+        {
+            "prompt": "How do different political parties' positions on immigration impact their electoral success?",
+            "id": 2
+        },
+        {
+            "prompt": "How does the complexity of the tax code affect compliance and the administrative costs of tax collection?",
+            "id": 4
+        },
+        {
+            "prompt": "How can governments balance national security concerns with the rights and needs of immigrants and refugees?",
+            "id": 6
+        },
+        {
+            "prompt": "In what ways can intelligence agencies be held accountable to prevent abuses of power while ensuring national security?",
+            "id": 8
+        },
+        {
+            "prompt": "How do different countries' immigration policies reflect their political, economic, and cultural priorities?",
+            "id": 10
+        },
+        {
+            "prompt": "What strategies can be employed to prevent the proliferation of weapons of mass destruction, including nuclear, biological, and chemical weapons?",
+            "id": 12
+        },
+        {
+            "prompt": "What are the potential consequences of implementing a universal basic income funded by taxation on the economy and society?",
+            "id": 14
+        },
+        {
+            "prompt": "How do media representations of immigrants influence public opinion and policy-making?",
+            "id": 16
+        },
+        {
+            "prompt": "How can local, national, and global policies be coordinated to create a comprehensive approach to combating climate change?",
+            "id": 18
+        },
+        {
+            "prompt": "What role should the military play in addressing non-traditional security threats, such as climate change, global health crises, and resource scarcity?",
+            "id": 20
+        },
+        {
+            "prompt": "What role do international organizations and agreements play in shaping national immigration policies?",
+            "id": 22
+        },
+        {
+            "prompt": "How can governments prepare for and mitigate the effects of natural disasters and pandemics on national security and public safety?",
+            "id": 24
+        },
+        {
+            "prompt": "What are the long-term social and economic effects of large-scale immigration on host countries?",
+            "id": 26
+        },
+        {
+            "prompt": "How do differing political perspectives shape national security policies and threat assessments?",
+            "id": 28
+        },
+        {
+            "prompt": "What impact do defense spending priorities have on a nation's overall economic health and social programs?",
+            "id": 30
+        },
+        {
+            "prompt": "How can governments address the challenges faced by workers and industries negatively affected by globalization and free trade?",
+            "id": 32
+        },
+        {
+            "prompt": "How do intellectual property rights and technology transfer policies influence international trade and economic development?",
+            "id": 34
+        },
+        {
+            "prompt": "What are the most effective strategies for increasing public awareness and engagement on climate change issues?",
+            "id": 36
+        },
+        {
+            "prompt": "What role should international organizations and agreements, such as the Paris Agreement, play in coordinating global efforts to address climate change?",
+            "id": 38
+        },
+        {
+            "prompt": "How can governments balance economic growth with the need to implement effective climate change mitigation strategies?",
+            "id": 40
+        },
+        {
+            "prompt": "How do different political ideologies shape debates and policies regarding taxation and public spending?",
+            "id": 42
+        },
+        {
+            "prompt": "How can governments address the influence of powerful interest groups, such as the fossil fuel industry, in shaping climate policy?",
+            "id": 44
+        },
+        {
+            "prompt": "What role does international trade play in fostering geopolitical relationships and stability?",
+            "id": 46
+        },
+        {
+            "prompt": "What are the ethical considerations involved in tax avoidance and tax evasion, and how should governments address them?",
+            "id": 48
+        }
+    ],
+    "test": [
+        {
+            "prompt": "How do different taxation policies reflect the socioeconomic values and priorities of a country?",
+            "id": 1
+        },
+        {
+            "prompt": "In what ways can public policy promote innovation and investment in green technologies?",
+            "id": 3
+        },
+        {
+            "prompt": "What innovative solutions could be proposed to manage issues related to illegal immigration effectively and humanely?",
+            "id": 5
+        },
+        {
+            "prompt": "How do political ideologies and partisanship influence climate change legislation and action?",
+            "id": 7
+        },
+        {
+            "prompt": "In what ways can tax policy be reformed to better support social programs without overburdening the middle and lower classes?",
+            "id": 9
+        },
+        {
+            "prompt": "What are the potential social and economic impacts of climate change on vulnerable communities, and how should governments respond?",
+            "id": 11
+        },
+        {
+            "prompt": "How do public perceptions of immigration influence political decisions and policies?",
+            "id": 13
+        },
+        {
+            "prompt": "How should governments respond to the threat of domestic terrorism while avoiding discrimination and civil rights violations?",
+            "id": 15
+        },
+        {
+            "prompt": "How do tax incentives and breaks for corporations and the wealthy affect the overall economy and small businesses?",
+            "id": 17
+        },
+        {
+            "prompt": "What impact does the rise of digital and e-commerce platforms have on traditional international trade models and regulatory frameworks?",
+            "id": 19
+        },
+        {
+            "prompt": "How can tax policy be used to address environmental concerns, such as through carbon taxes or green energy incentives?",
+            "id": 21
+        },
+        {
+            "prompt": "What are the potential benefits and challenges of implementing more lenient immigration policies?",
+            "id": 23
+        },
+        {
+            "prompt": "What role do international agreements and cooperation play in preventing tax evasion and ensuring fair taxation globally?",
+            "id": 25
+        },
+        {
+            "prompt": "How can policymakers address the emerging threats of cyber warfare and cyber terrorism?",
+            "id": 27
+        },
+        {
+            "prompt": "How do protectionist policies, such as tariffs and trade barriers, impact domestic industries and global trade dynamics?",
+            "id": 29
+        },
+        {
+            "prompt": "In what ways can international trade be leveraged to reduce poverty and promote sustainable development in emerging economies?",
+            "id": 31
+        },
+        {
+            "prompt": "In what ways can immigration reform address both humanitarian concerns and economic needs?",
+            "id": 33
+        },
+        {
+            "prompt": "What are the potential consequences of trade imbalances between nations, and how can they be mitigated?",
+            "id": 35
+        },
+        {
+            "prompt": "How can governments effectively balance civil liberties and individual privacy with the need for national security?",
+            "id": 37
+        },
+        {
+            "prompt": "How can international trade agreements incorporate human rights considerations to protect labor rights and prevent exploitation?",
+            "id": 39
+        },
+        {
+            "prompt": "How can international trade agreements balance the interests of developed and developing countries to promote global economic growth?",
+            "id": 41
+        },
+        {
+            "prompt": "What measures can be taken to ensure that international trade practices adhere to environmental sustainability standards?",
+            "id": 43
+        },
+        {
+            "prompt": "What role should international alliances and partnerships play in shaping a country's national security strategy?",
+            "id": 45
+        },
+        {
+            "prompt": "What are the responsibilities of developed countries in assisting developing nations to adapt to and mitigate the effects of climate change?",
+            "id": 47
+        },
+        {
+            "prompt": "What are the potential impacts of progressive tax systems versus flat tax systems on income inequality?",
+            "id": 49
+        }
+    ]
+}

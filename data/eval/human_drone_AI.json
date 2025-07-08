@@ -1,0 +1,207 @@
+{
+    "dataset": "human_drone_AI",
+    "dev": [
+        {
+            "prompt": "Assess the potential of computer vision in drones for agricultural applications, such as crop monitoring and disease detection.",
+            "id": 0
+        },
+        {
+            "prompt": "Evaluate the benefits and challenges of using deep learning models for image recognition tasks performed by drones.",
+            "id": 2
+        },
+        {
+            "prompt": "Explain the role of computer vision in enhancing the navigation and obstacle avoidance capabilities of drones.",
+            "id": 4
+        },
+        {
+            "prompt": "How can drone imagery be integrated with other geospatial data sources to create comprehensive maps and databases of buildings?",
+            "id": 6
+        },
+        {
+            "prompt": "In what ways can AI-driven decision-making processes improve the effectiveness and efficiency of military operations?",
+            "id": 8
+        },
+        {
+            "prompt": "What role can drones play in post-disaster scenarios for locating and assessing the condition of buildings?",
+            "id": 10
+        },
+        {
+            "prompt": "What role does AI play in cyber warfare, and how does it enhance both offensive and defensive capabilities?",
+            "id": 12
+        },
+        {
+            "prompt": "Examine the use of computer vision in enabling drones to perform search and rescue operations in diverse terrains.",
+            "id": 14
+        },
+        {
+            "prompt": "What are the potential long-term implications of integrating AI into military strategy and doctrine for global security?",
+            "id": 16
+        },
+        {
+            "prompt": "How can AI contribute to reducing human casualties and collateral damage during military conflicts?",
+            "id": 18
+        },
+        {
+            "prompt": "What challenges do military organizations face when implementing AI technologies, and how can they overcome these obstacles?",
+            "id": 20
+        },
+        {
+            "prompt": "Discuss the ethical considerations and privacy concerns associated with the deployment of computer vision-enabled drones for surveillance purposes.",
+            "id": 22
+        },
+        {
+            "prompt": "How might the reliance on AI for critical decision-making in military operations introduce vulnerabilities or unforeseen consequences?",
+            "id": 24
+        },
+        {
+            "prompt": "In what ways could adversarial attacks on military AI systems compromise the effectiveness and security of these technologies?",
+            "id": 26
+        },
+        {
+            "prompt": "How do AI-powered autonomous vehicles, such as drones and unmanned ground vehicles, impact the dynamics of the battlefield?",
+            "id": 28
+        },
+        {
+            "prompt": "In what ways could the misuse or malfunction of AI systems lead to unintended escalations or conflicts?",
+            "id": 30
+        },
+        {
+            "prompt": "How could the rapid advancement and deployment of military AI escalate global arms races or lead to destabilization in international relations?",
+            "id": 32
+        },
+        {
+            "prompt": "What challenges arise in processing and analyzing large volumes of drone imagery to locate buildings in different environments?",
+            "id": 34
+        },
+        {
+            "prompt": "Outline the process of training computer vision algorithms to identify and classify different types of buildings from aerial imagery.",
+            "id": 36
+        },
+        {
+            "prompt": "What steps are being taken to ensure the security and robustness of AI systems against adversarial attacks?",
+            "id": 38
+        },
+        {
+            "prompt": "What are the potential risks of developing and deploying autonomous weapons systems powered by AI in military conflicts?",
+            "id": 40
+        },
+        {
+            "prompt": "What are the technological advancements in drone imaging that have improved the accuracy and efficiency of locating buildings?",
+            "id": 42
+        },
+        {
+            "prompt": "What are the implications of AI-driven surveillance for privacy and civil liberties, both domestically and internationally?",
+            "id": 44
+        },
+        {
+            "prompt": "How do factors like weather conditions, time of day, and altitude impact the quality and usefulness of drone images for building identification?",
+            "id": 46
+        },
+        {
+            "prompt": "How might the development and deployment of AI technologies in the military lead to advancements and innovations in civilian applications?",
+            "id": 48
+        }
+    ],
+    "test": [
+        {
+            "prompt": "How can regulatory frameworks be developed to ensure the responsible and safe use of drones for building identification?",
+            "id": 1
+        },
+        {
+            "prompt": "How might the integration of AI in military strategies impact the ethical training and judgment of military personnel?",
+            "id": 3
+        },
+        {
+            "prompt": "What are the ethical implications of deploying AI systems in combat scenarios, and how can they be addressed?",
+            "id": 5
+        },
+        {
+            "prompt": "In what ways can AI be used for intelligence, surveillance, and reconnaissance (ISR) missions, and what are the advantages over traditional methods?",
+            "id": 7
+        },
+        {
+            "prompt": "How can AI and machine learning algorithms enhance the ability to identify and classify buildings from drone-captured images?",
+            "id": 9
+        },
+        {
+            "prompt": "How do AI and machine learning contribute to the development of next-generation weapons systems?",
+            "id": 11
+        },
+        {
+            "prompt": "How might data biases in AI algorithms lead to flawed decision-making or discriminatory outcomes in military operations?",
+            "id": 13
+        },
+        {
+            "prompt": "What could be the role of AI in enhancing humanitarian missions and disaster response led by military forces?",
+            "id": 15
+        },
+        {
+            "prompt": "Explore the importance of sensor fusion, combining computer vision with other data sources, to enhance the situational awareness of drones.",
+            "id": 17
+        },
+        {
+            "prompt": "What ethical dilemmas arise from using AI in combat, particularly with respect to accountability and the rules of engagement?",
+            "id": 19
+        },
+        {
+            "prompt": "How can AI be leveraged to improve logistical and supply chain management within the military?",
+            "id": 21
+        },
+        {
+            "prompt": "Describe how computer vision technologies enable drones to perform precise aerial mapping and 3D modeling of environments.",
+            "id": 23
+        },
+        {
+            "prompt": "In what ways can thermal imaging and other sensor technologies mounted on drones be utilized to better identify structures?",
+            "id": 25
+        },
+        {
+            "prompt": "In what specific areas can AI significantly enhance military training and simulation exercises?",
+            "id": 27
+        },
+        {
+            "prompt": "What are the long-term risks of human soldiers becoming overly dependent on AI systems, and how can such dependencies be mitigated?",
+            "id": 29
+        },
+        {
+            "prompt": "Discuss the application of computer vision for real-time object detection and tracking in drone operations.",
+            "id": 31
+        },
+        {
+            "prompt": "How can AI-supported cybersecurity measures strengthen the defense against cyber threats and protect critical military infrastructure?",
+            "id": 33
+        },
+        {
+            "prompt": "What are the benefits of AI in optimizing resource allocation and logistics management within military operations?",
+            "id": 35
+        },
+        {
+            "prompt": "What advancements are needed in real-time image processing to allow for the immediate identification and location of buildings by drones?",
+            "id": 37
+        },
+        {
+            "prompt": "Analyze the impact of advancements in computer vision on the accuracy and reliability of autonomous drone missions.",
+            "id": 39
+        },
+        {
+            "prompt": "How can AI improve the accuracy and reliability of threat detection and response in both domestic and international contexts?",
+            "id": 41
+        },
+        {
+            "prompt": "How might AI enhance the capabilities of soldiers on the ground in terms of real-time data analysis and situational awareness?",
+            "id": 43
+        },
+        {
+            "prompt": "What are the privacy and ethical implications of using drone photography for locating and mapping buildings in urban areas?",
+            "id": 45
+        },
+        {
+            "prompt": "How does artificial intelligence enhance strategic decision-making in modern military operations?",
+            "id": 47
+        },
+        {
+            "prompt": "What potential advantages does AI offer in the realm of predictive maintenance for military equipment and vehicles?",
+            "id": 49
+        }
+    ]
+}

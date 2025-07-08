@@ -1,0 +1,207 @@
+{
+    "dataset": "human_sandbox_games",
+    "dev": [
+        {
+            "prompt": "How has the Zelda franchise evolved in terms of gameplay mechanics and storytelling since the release of the original \"The Legend of Zelda\" in 1986, and what have been some of the most significant changes?",
+            "id": 0
+        },
+        {
+            "prompt": "Discuss the role of innovation in miHoYo\u2019s game design. How do they balance the integration of new technologies and gameplay mechanics while ensuring accessibility and player satisfaction?",
+            "id": 2
+        },
+        {
+            "prompt": "How does miHoYo foster a company culture that promotes creativity and excellence in game development? Provide examples of initiatives or practices that contribute to this environment.",
+            "id": 4
+        },
+        {
+            "prompt": "How do the multiplayer features in Genshin Impact compare with those in other cooperative RPGs like Monster Hunter or Diablo series, especially in terms of gameplay dynamics and player interaction?",
+            "id": 6
+        },
+        {
+            "prompt": "In what ways are traditional Chinese myths, legends, and historical events incorporated into modern Chinese video games, and how do these elements resonate with both domestic and international audiences?",
+            "id": 8
+        },
+        {
+            "prompt": "In what ways has \"The Legend of Zelda: Breath of the Wild\" influenced the open-world genre, and how does it compare to previous entries in the series in terms of innovation and player freedom?",
+            "id": 10
+        },
+        {
+            "prompt": "In what ways do the puzzles and dungeon designs in the Zelda series challenge players, and how have these elements evolved to maintain player engagement over the years?",
+            "id": 12
+        },
+        {
+            "prompt": "How have the recurring characters, such as Link, Zelda, and Ganon, been reinterpreted across various games in the series, and what impact do these reinterpretations have on the franchise's continuity and fan reception?",
+            "id": 14
+        },
+        {
+            "prompt": "How does Genshin Impact's cooperative multiplayer mode influence gameplay dynamics? Discuss the benefits and challenges of playing with others in the game.",
+            "id": 16
+        },
+        {
+            "prompt": "How do the side quests and optional content in the Zelda games contribute to world-building and character development, and what are some memorable examples from different games in the franchise?",
+            "id": 18
+        },
+        {
+            "prompt": "How has the art style of the Zelda games changed over time, and what do these visual shifts convey about the series' development and the broader trends in the gaming industry?",
+            "id": 20
+        },
+        {
+            "prompt": "How have Chinese indie game developers contributed to the diversity and innovation within the Chinese gaming industry, and what unique challenges do they face?",
+            "id": 22
+        },
+        {
+            "prompt": "What roles do government regulations and policies play in the development and distribution of video games in China, and how do these regulations impact the creative freedom of developers?",
+            "id": 24
+        },
+        {
+            "prompt": "What are the primary methods through which players can acquire new characters in Genshin Impact, and how does the game balance free-to-play elements with its gacha system?",
+            "id": 26
+        },
+        {
+            "prompt": "How do the elemental reaction mechanics in Genshin Impact differ from or enhance traditional elemental systems seen in other RPGs, such as Pok\u00e9mon or Dragon Quest series?",
+            "id": 28
+        },
+        {
+            "prompt": "Analyze the role of limited-time events in Genshin Impact. How do these events contribute to the game\u2019s longevity and player retention, and what are some notable events from the past?",
+            "id": 30
+        },
+        {
+            "prompt": "How does Genshin Impact's open-world exploration compare to other open-world games like The Legend of Zelda: Breath of the Wild in terms of world design, player freedom, and environmental interaction?",
+            "id": 32
+        },
+        {
+            "prompt": "What lessons can other game developers learn from miHoYo\u2019s success with games like Genshin Impact and Honkai Impact 3rd, particularly in terms of game design, storytelling, and community engagement?",
+            "id": 34
+        },
+        {
+            "prompt": "How does the game balance progression and difficulty to ensure both new and veteran players remain engaged? Discuss the different content and systems in place that cater to various player levels.",
+            "id": 36
+        },
+        {
+            "prompt": "In what ways does Genshin Impact\u2019s combat system differ from and resemble that of other action role-playing games such as Honkai Impact 3rd or the Tales series?",
+            "id": 38
+        },
+        {
+            "prompt": "How have Zelda games influenced other game developers and the industry as a whole, and what are some notable examples of other games or series that have drawn inspiration from Zelda?",
+            "id": 40
+        },
+        {
+            "prompt": "What role does nostalgia play in the ongoing popularity of the Zelda franchise, and how does Nintendo balance catering to long-time fans while attracting new players?",
+            "id": 42
+        },
+        {
+            "prompt": "How does the quest and side-mission structure in Genshin Impact compare to other open-world RPGs like The Witcher 3 or Skyrim, particularly in terms of variety and narrative integration?",
+            "id": 44
+        },
+        {
+            "prompt": "In what ways does miHoYo integrate player feedback into their game updates and new releases, and how effective has this approach been in maintaining a loyal player base?",
+            "id": 46
+        },
+        {
+            "prompt": "In what ways could miHoYo's upcoming projects shape the future of the gaming industry, and what expectations and anticipations do fans have for these new games?",
+            "id": 48
+        }
+    ],
+    "test": [
+        {
+            "prompt": "Explain the significance of the Archon Quests in Genshin Impact's overarching story. How do these quests shape the world of Teyvat and its inhabitants?",
+            "id": 1
+        },
+        {
+            "prompt": "How has miHoYo managed to build and sustain a global community of players, and what strategies do they employ to engage with and support this diverse audience?",
+            "id": 3
+        },
+        {
+            "prompt": "Discuss the role of character backstories in Genshin Impact. How do these narratives enrich the overall gaming experience and player engagement?",
+            "id": 5
+        },
+        {
+            "prompt": "How do the various regions in Genshin Impact, such as Mondstadt, Liyue, and Inazuma, reflect their cultural inspirations, and how does this impact the game's visual and narrative design?",
+            "id": 7
+        },
+        {
+            "prompt": "How does the storyline and character development in Genshin Impact compare to narrative-driven RPGs like Final Fantasy or Persona series, particularly in terms of depth and player engagement?",
+            "id": 9
+        },
+        {
+            "prompt": "How do Chinese video game companies approach the challenge of reaching a global audience, and what strategies have proven effective in making their games popular overseas?",
+            "id": 11
+        },
+        {
+            "prompt": "How does the elemental reaction system in Genshin Impact enhance combat strategy, and what are some effective combinations players commonly use?",
+            "id": 13
+        },
+        {
+            "prompt": "In what ways has Genshin Impact\u2019s music and sound design contributed to the game's atmosphere and emotional impact? Provide examples of how specific tracks or soundscapes enhance the player\u2019s experience.",
+            "id": 15
+        },
+        {
+            "prompt": "In terms of visual style and art direction, how does Genshin Impact stand out from or bear resemblance to other anime-inspired games, such as Ni no Kuni or Sword Art Online?",
+            "id": 17
+        },
+        {
+            "prompt": "How do the different timelines and parallel stories within the Zelda franchise contribute to its overall lore, and how do they affect players' understanding and appreciation of the series?",
+            "id": 19
+        },
+        {
+            "prompt": "In what ways does Genshin Impact's approach to character design and abilities set it apart from other character-centric games like Overwatch or League of Legends?",
+            "id": 21
+        },
+        {
+            "prompt": "What impact has miHoYo had on the mobile gaming landscape, and how have they influenced trends or standards within the mobile gaming community?",
+            "id": 23
+        },
+        {
+            "prompt": "What are some significant challenges miHoYo faced in the development and launch of Genshin Impact, and how did they overcome them to achieve global success?",
+            "id": 25
+        },
+        {
+            "prompt": "In what ways do collaborations between Chinese and international game developers shape the gaming landscape, and what are some notable examples of successful partnerships?",
+            "id": 27
+        },
+        {
+            "prompt": "How has the rise of mobile gaming in China influenced the types of games being developed and the gaming habits of Chinese players?",
+            "id": 29
+        },
+        {
+            "prompt": "How has miHoYo's approach to game development evolved since its inception, and what distinctive philosophies or practices have they adopted that differentiate them from other game developers?",
+            "id": 31
+        },
+        {
+            "prompt": "How does miHoYo's branding and marketing strategy contribute to the global appeal of their games, particularly in diverse markets with varying gaming cultures?",
+            "id": 33
+        },
+        {
+            "prompt": "Evaluate the impact of Genshin Impact on the gaming industry, particularly in terms of its monetization model, global appeal, and cross-platform play. How has it influenced other games and developers?",
+            "id": 35
+        },
+        {
+            "prompt": "How does the live-service model implemented in Genshin Impact compare with other live-service games like Destiny 2 or Fortnite, especially in aspects like content updates, community events, and player retention strategies?",
+            "id": 37
+        },
+        {
+            "prompt": "How do the gacha mechanics in Genshin Impact compare to similar systems in other free-to-play games, and how do they impact player experience and progression?",
+            "id": 39
+        },
+        {
+            "prompt": "Discuss the role of music and sound design in the Zelda series. How do specific musical themes and sound effects enhance the atmosphere and storytelling of each game?",
+            "id": 41
+        },
+        {
+            "prompt": "In what ways do Chinese video games address social issues or themes, and how is this received by players and the broader public?",
+            "id": 43
+        },
+        {
+            "prompt": "How does the Chinese gaming industry balance the production of free-to-play games with monetization strategies, and what impact does this have on game design and player retention?",
+            "id": 45
+        },
+        {
+            "prompt": "How have Chinese video games evolved in terms of gameplay design and narrative style over the past decade, and what cultural influences are most evident in these developments?",
+            "id": 47
+        },
+        {
+            "prompt": "What are the distinctive characteristics of eSports culture in China, and how does it compare to the eSports scenes in other parts of the world?",
+            "id": 49
+        }
+    ]
+}

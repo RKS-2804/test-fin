@@ -1,0 +1,207 @@
+{
+    "dataset": "human_plastic",
+    "dev": [
+        {
+            "prompt": "In what ways have plastic products improved modern life, and can you think of any alternatives that could offer similar benefits?",
+            "id": 0
+        },
+        {
+            "prompt": "What role does public perception and awareness play in the challenge of phasing out plastic, and how can effective communication strategies help shift public opinion?",
+            "id": 2
+        },
+        {
+            "prompt": "In what ways do policy proposals address the need for improved recycling infrastructure to support the phase-out of plastic products?",
+            "id": 4
+        },
+        {
+            "prompt": "What role do public awareness campaigns play in the success of policy proposals to reduce plastic usage, and how can these campaigns be most effectively designed and implemented?",
+            "id": 6
+        },
+        {
+            "prompt": "How do international collaborations and agreements influence national and local policy proposals to phase out plastic?",
+            "id": 8
+        },
+        {
+            "prompt": "How does the production of plastic products contribute to greenhouse gas emissions, and what innovations are being introduced to minimize this impact?",
+            "id": 10
+        },
+        {
+            "prompt": "How do different countries' waste management policies impact the overall effectiveness of global efforts to reduce plastic pollution?",
+            "id": 12
+        },
+        {
+            "prompt": "What are some successful examples of industries or companies that have transitioned from plastic to alternative materials, and what lessons can be learned from their experiences?",
+            "id": 14
+        },
+        {
+            "prompt": "What are the most promising alternatives to plastic products, and how do they compare in terms of functionality and cost?",
+            "id": 16
+        },
+        {
+            "prompt": "How effective have bans on single-use plastics been in different jurisdictions, and what have been the main challenges in enforcing these bans?",
+            "id": 18
+        },
+        {
+            "prompt": "What monitoring and evaluation mechanisms are in place to assess the effectiveness of policies aimed at reducing plastic use, and how can these mechanisms be improved?",
+            "id": 20
+        },
+        {
+            "prompt": "What are the biggest consumer-related challenges in reducing plastic use, and how can these behaviors be effectively changed?",
+            "id": 22
+        },
+        {
+            "prompt": "How can consumer advocacy and grassroots movements drive international policies and corporate practices towards reducing plastic pollution?",
+            "id": 24
+        },
+        {
+            "prompt": "What impact do cultural attitudes towards plastic use and waste have on the effectiveness of global initiatives to combat plastic pollution, and how can cultural shifts be encouraged?",
+            "id": 26
+        },
+        {
+            "prompt": "What are the potential health risks associated with the use of plastic products, especially those in direct contact with food and beverages?",
+            "id": 28
+        },
+        {
+            "prompt": "What challenges exist in scaling up the production of plastic alternatives, and how can these challenges be addressed?",
+            "id": 30
+        },
+        {
+            "prompt": "How do the environmental impacts of plastic alternatives, such as bioplastics or compostable materials, compare to those of traditional plastics?",
+            "id": 32
+        },
+        {
+            "prompt": "What are some successful case studies of countries or cities that have significantly reduced plastic waste, and what lessons can be learned from their approaches?",
+            "id": 34
+        },
+        {
+            "prompt": "In what ways can government policies and incentives promote the development and adoption of plastic alternatives?",
+            "id": 36
+        },
+        {
+            "prompt": "How can governments and policymakers create effective regulations to control plastic pollution without stifling industrial growth?",
+            "id": 38
+        },
+        {
+            "prompt": "What role do consumer behaviors play in the demand for plastic products, and how can awareness and education influence these behaviors?",
+            "id": 40
+        },
+        {
+            "prompt": "How can small businesses and startups contribute to the reduction of plastic usage, and what specific challenges might they encounter compared to larger corporations?",
+            "id": 42
+        },
+        {
+            "prompt": "In what ways might phasing out plastic affect economic stability and employment in regions heavily dependent on plastic manufacturing?",
+            "id": 44
+        },
+        {
+            "prompt": "What are the key differences between biodegradable and non-biodegradable plastics, and how do they affect waste management practices?",
+            "id": 46
+        },
+        {
+            "prompt": "What are the main obstacles faced by industries when trying to phase out plastic, and how can these be overcome without compromising product quality?",
+            "id": 48
+        }
+    ],
+    "test": [
+        {
+            "prompt": "How can consumer awareness and demand drive innovation and market growth for alternatives to plastic products?",
+            "id": 1
+        },
+        {
+            "prompt": "What role does education play in global efforts to combat plastic pollution, and how can educational programs be effectively implemented?",
+            "id": 3
+        },
+        {
+            "prompt": "How do policy proposals balance the economic impacts on industries reliant on plastic production with environmental sustainability goals?",
+            "id": 5
+        },
+        {
+            "prompt": "What are the common criticisms of current policy proposals aimed at reducing plastic pollution, and how can policymakers address these concerns?",
+            "id": 7
+        },
+        {
+            "prompt": "What barriers exist in the development and adoption of alternative materials to plastic, and how can innovation be encouraged in this field?",
+            "id": 9
+        },
+        {
+            "prompt": "How do cultural and socioeconomic factors influence the use and disposal of plastic products across different regions of the world?",
+            "id": 11
+        },
+        {
+            "prompt": "In what ways can advancements in recycling technology improve the lifecycle of plastic products, and what are the current limitations?",
+            "id": 13
+        },
+        {
+            "prompt": "In what ways can global collaboration between governments, corporations, and non-profits enhance efforts to combat plastic pollution?",
+            "id": 15
+        },
+        {
+            "prompt": "What are the key features of current policy proposals aimed at phasing out plastic, and how do they differ across various regions or countries?",
+            "id": 17
+        },
+        {
+            "prompt": "What are the economic implications of transitioning from traditional plastic products to sustainable alternatives in various industries?",
+            "id": 19
+        },
+        {
+            "prompt": "How do the properties and limitations of plastic alternatives influence their design and usability in everyday products?",
+            "id": 21
+        },
+        {
+            "prompt": "What innovative technologies or practices have shown the most promise in addressing plastic pollution on a global scale?",
+            "id": 23
+        },
+        {
+            "prompt": "How do policy proposals ensure equitable outcomes for communities disproportionately affected by plastic pollution, particularly in developing nations?",
+            "id": 25
+        },
+        {
+            "prompt": "What environmental trade-offs might occur when replacing plastic with alternative materials, and how can these be balanced to ensure a net positive impact on sustainability?",
+            "id": 27
+        },
+        {
+            "prompt": "What are the economic implications of switching to plastic alternatives for both manufacturers and consumers, and how can these be mitigated to ensure a smooth transition?",
+            "id": 29
+        },
+        {
+            "prompt": "How do existing policies incentivize businesses to develop and adopt sustainable alternatives to plastic, and what additional measures could enhance these incentives?",
+            "id": 31
+        },
+        {
+            "prompt": "How can global trade policies be adjusted to reduce the flow of plastic waste, especially to countries ill-equipped to handle it?",
+            "id": 33
+        },
+        {
+            "prompt": "How effective have international agreements, such as the Basel Convention, been in reducing plastic pollution worldwide, and what challenges do they face?",
+            "id": 35
+        },
+        {
+            "prompt": "How do differing regulatory environments across countries complicate global efforts to phase out plastic, and what strategies can harmonize these efforts?",
+            "id": 37
+        },
+        {
+            "prompt": "How do different plastic alternatives perform in various applications, such as packaging, consumer goods, and medical equipment?",
+            "id": 39
+        },
+        {
+            "prompt": "How do economic disparities between nations affect their ability to manage plastic waste, and what support mechanisms can be put in place to address these disparities?",
+            "id": 41
+        },
+        {
+            "prompt": "What role do lifecycle assessments play in evaluating the sustainability of plastic alternatives, and what have they revealed about their overall environmental impact?",
+            "id": 43
+        },
+        {
+            "prompt": "How do plastic products impact the environment, and what steps can be taken to reduce their negative effects?",
+            "id": 45
+        },
+        {
+            "prompt": "How might the cost of producing and implementing plastic alternatives affect their widespread adoption, and what financial mechanisms could facilitate this transition?",
+            "id": 47
+        },
+        {
+            "prompt": "How do existing infrastructure and supply chains impede the transition away from plastic, and what changes are needed to support a more sustainable system?",
+            "id": 49
+        }
+    ]
+}

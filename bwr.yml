@@ -1,0 +1,24 @@
+name: bwr
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  - pytorch=2.0.1
+  - pytorch-cuda=11.7
+  - pip:
+    - transformers==4.31.0
+    - datasets==2.13.1
+    - peft==0.4.0
+    - accelerate==0.21.0
+    - bitsandbytes==0.40.2
+    - safetensors==0.3.1
+    - wandb==0.15.5
+    - trl==0.4.7
+    - google-api-python-client==2.93.0
+    - tenacity==8.2.2
+    - scikit-learn==1.3.0
+    - google-cloud-aiplatform==1.25.0

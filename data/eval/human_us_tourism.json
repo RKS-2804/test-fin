@@ -1,0 +1,207 @@
+{
+    "dataset": "human_us_tourism",
+    "dev": [
+        {
+            "prompt": "How has the west coast\u2019s culinary scene, characterized by fresh, local ingredients and a focus on innovation, contributed to its reputation as a foodie destination, and what are some of the signature dishes or dining experiences that visitors should seek out?",
+            "id": 0
+        },
+        {
+            "prompt": "How has the preservation of wilderness and scenic vistas in Denali National Park and Preserve contributed to its appeal for adventure tourism, and what are some of the key activities that draw visitors to the park?",
+            "id": 2
+        },
+        {
+            "prompt": "How has the development of infrastructure, including transportation networks like Amtrak and major east coast airports, facilitated the ease of travel for tourists visiting multiple destinations along the eastern seaboard?",
+            "id": 4
+        },
+        {
+            "prompt": "How does the diverse ecosystem of Everglades National Park support a range of wildlife and plant species, and what educational opportunities does the park offer to raise awareness about its conservation?",
+            "id": 6
+        },
+        {
+            "prompt": "How have major metropolitan cities like New York, Los Angeles, and Chicago developed their tourism sectors, and what unique attractions do these cities offer that draw both domestic and international visitors?",
+            "id": 8
+        },
+        {
+            "prompt": "What role do east coast festivals and events, like New York City's New Year's Eve celebration in Times Square and the National Cherry Blossom Festival in Washington, D.C., play in attracting tourists, and what impact do they have on local tourism?",
+            "id": 10
+        },
+        {
+            "prompt": "What role do the ancient cliff dwellings and archaeological sites in Mesa Verde National Park play in understanding early Native American cultures, and how do these features attract and educate visitors?",
+            "id": 12
+        },
+        {
+            "prompt": "What are the economic effects of international tourism on the US economy, especially in terms of foreign exchange earnings and trade balance, and how do these impacts compare to those of domestic tourism?",
+            "id": 14
+        },
+        {
+            "prompt": "How has the diversity of landscapes across different states influenced the types of tourist activities and attractions that are popular in various regions of the United States?",
+            "id": 16
+        },
+        {
+            "prompt": "How does the biodiversity in the Great Smoky Mountains National Park contribute to its status as the most visited national park in the US, and what are some of the key species and habitats that visitors can observe?",
+            "id": 18
+        },
+        {
+            "prompt": "How does the Pacific Coast Highway contribute to the west coast travel experience, and what are some of the must-see stops along this scenic route?",
+            "id": 20
+        },
+        {
+            "prompt": "What role do events and festivals play in US tourism, and how do large-scale events like music festivals, sports championships, and cultural celebrations affect local economies and visitor experiences?",
+            "id": 22
+        },
+        {
+            "prompt": "What are the economic benefits of ecotourism and sustainable tourism initiatives in the US, and how do these forms of tourism contribute to both local economies and environmental conservation?",
+            "id": 24
+        },
+        {
+            "prompt": "How do the scenic drives and changing foliage during the autumn season make New England states like Vermont, New Hampshire, and Maine popular with tourists, and what specific activities or attractions draw visitors during this period?",
+            "id": 26
+        },
+        {
+            "prompt": "What is the significance of the Appalachian Trail for east coast tourism, and how do activities like hiking and camping along the trail contribute to both local economies and the promotion of outdoor tourism?",
+            "id": 28
+        },
+        {
+            "prompt": "How do major events and festivals, such as the Super Bowl or Mardi Gras, impact local economies in host cities, and what are the short-term and long-term economic benefits associated with these large-scale gatherings?",
+            "id": 30
+        },
+        {
+            "prompt": "What impact do natural landmarks like Yosemite National Park, the Redwoods, and Crater Lake have on west coast tourism, and how do they promote environmental awareness among visitors?",
+            "id": 32
+        },
+        {
+            "prompt": "What role do west coast wine regions, such as Napa Valley and the Willamette Valley, play in attracting tourists, and how do wine tours and tasting experiences add to the region's cultural allure?",
+            "id": 34
+        },
+        {
+            "prompt": "How does tourism contribute to job creation within the United States, and what are some of the key sectors and occupations that benefit most from tourism-related activities?",
+            "id": 36
+        },
+        {
+            "prompt": "How does the US government support and regulate the tourism industry, and what are some of the key policies or initiatives that have been implemented to promote tourism growth and sustainability?",
+            "id": 38
+        },
+        {
+            "prompt": "What are some of the key factors that contribute to the United States being a leading international tourist destination, and how do these factors compare to those of other top tourist destinations globally?",
+            "id": 40
+        },
+        {
+            "prompt": "How does the film and entertainment industry in Hollywood influence tourism in Los Angeles, and what are some of the most popular experiences for tourists in the heart of the movie business?",
+            "id": 42
+        },
+        {
+            "prompt": "How does tourism in the United States impact the environment, and what measures are being taken to promote sustainable and eco-friendly tourism practices?",
+            "id": 44
+        },
+        {
+            "prompt": "How do seasonal variations in tourism affect local economies, especially in regions dependent on specific types of tourism, such as ski resorts in winter or beach towns in summer?",
+            "id": 46
+        },
+        {
+            "prompt": "What are some of the most significant historical and cultural sites in the United States that attract tourists, and how do these sites contribute to the preservation and understanding of American history and heritage?",
+            "id": 48
+        }
+    ],
+    "test": [
+        {
+            "prompt": "How does tourism influence property values and the real estate market in major tourist destinations, and what are some of the potential benefits and drawbacks of these changes for local residents?",
+            "id": 1
+        },
+        {
+            "prompt": "What historical and natural significance does the Grand Canyon National Park hold, and how do the various vantage points and activities enhance the visitor experience?",
+            "id": 3
+        },
+        {
+            "prompt": "What are the economic challenges that tourism-dependent communities face during periods of downturn, such as economic recessions or global pandemics, and what strategies can these communities employ to mitigate such impacts?",
+            "id": 5
+        },
+        {
+            "prompt": "What role does the National Park Service play in promoting and maintaining tourism in the United States, and how do national parks contribute to the overall tourism economy?",
+            "id": 7
+        },
+        {
+            "prompt": "How do iconic west coast cities such as Los Angeles, San Francisco, and Seattle contribute to the region\u2019s tourism appeal, and what are some of the unique attractions in these cities that draw visitors from around the world?",
+            "id": 9
+        },
+        {
+            "prompt": "How do government policies and incentives, such as tourism promotion campaigns and tax breaks for tourism businesses, impact the growth and development of the tourism sector in the United States?",
+            "id": 11
+        },
+        {
+            "prompt": "What role does tourism play in supporting small businesses in popular tourist destinations, and how do these businesses contribute to the overall economic vitality of their communities?",
+            "id": 13
+        },
+        {
+            "prompt": "What are some unique cultural and culinary experiences available to tourists on the east coast, from the seafood of Maine to the Cuban influences in Miami, and how do these experiences enhance the appeal of the region?",
+            "id": 15
+        },
+        {
+            "prompt": "In what ways has Silicon Valley become a tourist destination, and how do tech industry tours and museum visits enrich the travel experience for visitors interested in technology and innovation?",
+            "id": 17
+        },
+        {
+            "prompt": "What role do outdoor recreational activities, such as surfing in Southern California and skiing in the Sierra Nevada, play in drawing tourists to the west coast, and how do these activities shape the identity of the region?",
+            "id": 19
+        },
+        {
+            "prompt": "What are the economic implications of tourism infrastructure development, such as the construction of hotels, airports, and highways, for both urban and rural areas in the United States?",
+            "id": 21
+        },
+        {
+            "prompt": "How have major east coast theme parks and attractions, such as Walt Disney World in Florida and Hersheypark in Pennsylvania, affected local economies and the overall tourism landscape of their respective states?",
+            "id": 23
+        },
+        {
+            "prompt": "How does the diverse climate and landscape of the west coast, from California\u2019s beaches to the Pacific Northwest\u2019s rainforests, impact the variety of tourist activities available?",
+            "id": 25
+        },
+        {
+            "prompt": "What is the importance of the coastline and beach destinations, like those found in Florida and the Carolinas, to east coast tourism, and how do these coastal areas attract different types of tourists throughout the year?",
+            "id": 27
+        },
+        {
+            "prompt": "In what ways has the US tourism industry adapted to changes and challenges brought about by the COVID-19 pandemic, and what lasting impacts has the pandemic had on travel patterns and tourism operations?",
+            "id": 29
+        },
+        {
+            "prompt": "How does the geothermal activity in Yellowstone National Park affect the park's ecosystem and its appeal to tourists, and what are some of the key geothermal features that visitors should see?",
+            "id": 31
+        },
+        {
+            "prompt": "How has the historical significance of east coast cities such as Boston, Philadelphia, and Washington, D.C., influenced their popularity as tourist destinations, and what are some must-see historical sites in these cities?",
+            "id": 33
+        },
+        {
+            "prompt": "How do the unique landscapes and rock formations in Arches National Park influence tourism, and what are some of the most iconic arches or trails that visitors should explore?",
+            "id": 35
+        },
+        {
+            "prompt": "How does the presence of prestigious universities and colleges, such as those in the Ivy League, influence tourism in towns and cities across the east coast, and what kind of visitor experience do these academic institutions provide?",
+            "id": 37
+        },
+        {
+            "prompt": "How do major music festivals like Coachella and cultural events like San Diego Comic-Con influence tourism patterns on the west coast, and what economic impacts do these large-scale events have on their host cities?",
+            "id": 39
+        },
+        {
+            "prompt": "What is the significance of Glacier Bay National Park in Alaska for marine and wildlife tourism, and how do boat tours and guided excursions help visitors experience its remote beauty?",
+            "id": 41
+        },
+        {
+            "prompt": "How has the rise of digital technology and social media influenced US tourism trends, marketing strategies, and the ways in which travelers plan and experience their trips within the country?",
+            "id": 43
+        },
+        {
+            "prompt": "How do the towering trees and lush landscapes of Redwood National and State Parks create a unique visitor experience, and what are some of the best ways to explore and appreciate the parks' natural wonders?",
+            "id": 45
+        },
+        {
+            "prompt": "What is the importance of Saguaro National Park in preserving the iconic saguaro cactus, and how do walking trails and educational programs within the park enhance visitor understanding of this unique desert environment?",
+            "id": 47
+        },
+        {
+            "prompt": "How do iconic east coast landmarks such as the Statue of Liberty, the Freedom Trail, and the National Mall contribute to the tourism experience, and what are the educational aspects associated with visiting these landmarks?",
+            "id": 49
+        }
+    ]
+}
