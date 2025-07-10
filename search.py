@@ -153,7 +153,21 @@ def candidate_update(i, gpu_id, search_pass_name, fast_merge, step_length, resta
         if all_candidates:
             random_idx = random.choice(all_candidates)
             random_path = os.path.join("search", search_pass_name, "candidate_"+str(random_idx))
-            shutil.copytree(random_path, candidate_path, dirs_exist_ok=True)
+            
+            # Create a new candidate path for the restart
+            output_path = candidate_path + "_new"
+            if os.path.exists(output_path):
+                shutil.rmtree(output_path)
+            
+            # Check if the original candidate exists
+            if os.path.exists(candidate_path):
+                # Copy the random candidate to the new path for comparison
+                shutil.copytree(random_path, output_path)
+                log_with_flush(f"Candidate_{i} restarted with a copy of candidate_{random_idx} (to be compared with original)")
+            else:
+                # If original doesn't exist (e.g., during initialization), create it directly
+                shutil.copytree(random_path, candidate_path)
+                log_with_flush(f"Candidate_{i} initialized with a copy of candidate_{random_idx}")
         return
 
     # Generate random variables for BWR
@@ -209,6 +223,11 @@ def candidate_update(i, gpu_id, search_pass_name, fast_merge, step_length, resta
         )
         
         # Combine current model with the two parts
+        output_path = candidate_path + "_new"
+        if os.path.exists(output_path):
+            shutil.rmtree(output_path)
+        os.makedirs(output_path, exist_ok=True)
+        
         lora_merge(
             weights = [1, step_length, step_length],
             lora_name_list = [
@@ -216,20 +235,24 @@ def candidate_update(i, gpu_id, search_pass_name, fast_merge, step_length, resta
                 os.path.join(temp_path, "part1"),
                 os.path.join(temp_path, "part2")
             ],
-            output_name = candidate_path + "_new",
+            output_name = output_path,
             gpu_id = gpu_id,
             directly_load_safetensors = fast_merge,
             merge_method = merge_method,
             merge_params = merge_params
         )
         
-        # Replace the current model with the new one
-        shutil.rmtree(candidate_path)
-        os.rename(candidate_path + "_new", candidate_path)
+        # Don't replace the current model yet - we'll compare them later
+        # The comparison will happen in the main search loop
     else:
         # === BWR exploration per Eq. (4): V' = U - (U-L)*r3 ===
         # We take L = -max_abs, U = +max_abs from a reference adapter (random_candidate_path)
         
+        # Create a new candidate path for exploration
+        output_path = candidate_path + "_new"
+        if os.path.exists(output_path):
+            shutil.rmtree(output_path)
+        os.makedirs(output_path, exist_ok=True)
  
         # 1) Load one safetensors to get shapes and a max‐abs bound
         sd = load_file(
@@ -243,11 +266,20 @@ def candidate_update(i, gpu_id, search_pass_name, fast_merge, step_length, resta
             # Sample uniformly in [L, U]
             new_sd[name] = torch.empty_like(tensor).uniform_(L, U)
  
-        # 2) Write out the brand-new random adapter into candidate_path
-        if os.path.exists(candidate_path):
-            shutil.rmtree(candidate_path)
-        os.makedirs(candidate_path, exist_ok=True)
-        save_file(new_sd, os.path.join(candidate_path, "adapter_model.safetensors"))
+        # DEBUG: Log when exploration branch is used
+        log_with_flush(f"DEBUG: Exploration branch used for candidate_{i}. Creating random adapter.")
+        # 2) Write out the brand-new random adapter into the new candidate path
+        save_file(new_sd, os.path.join(output_path, "adapter_model.safetensors"))
+        
+        # Fix: Copy the adapter_config.json file from the reference model
+        # This ensures the model has the necessary configuration including model_type
+        config_src = os.path.join(random_candidate_path, "adapter_config.json")
+        config_dst = os.path.join(output_path, "adapter_config.json")
+        if os.path.exists(config_src):
+            shutil.copy(config_src, config_dst)
+            log_with_flush(f"Copied adapter_config.json for candidate_{i}_new from reference model")
+        else:
+            log_with_flush(f"WARNING: Could not find adapter_config.json in reference model for candidate_{i}_new")
 
 if __name__ == "__main__":
     argParser = argparse.ArgumentParser()
@@ -543,6 +575,27 @@ if __name__ == "__main__":
         pool.close()
         pool.join()
 
+        # Now evaluate the new candidate versions
+        log_with_flush("evaluating new candidate versions...")
+        eval_new_args = []
+        new_candidate_indices = []  # Track which candidates have new versions
+        
+        for i in range(len(candidate_paths)):
+            new_candidate_path = os.path.join("search", search_pass_name, "candidate_"+str(i)+"_new")
+            if os.path.exists(new_candidate_path):
+                eval_new_args.append((new_candidate_path,
+                                    eval_type, dataset, gpus[assign_gpu(len(gpus), i, len(candidate_paths))],
+                                    base_model, False, None, global_skip_flag or local_skip_flag))
+                new_candidate_indices.append(i)
+        
+        # Only evaluate if there are new candidates
+        new_results = []
+        if eval_new_args:
+            pool = Pool(processes=min(len(gpus), len(eval_new_args)))
+            new_results = pool.starmap(evaluate, eval_new_args, chunksize=math.ceil(len(eval_new_args)/len(gpus)))
+            pool.close()
+            pool.join()
+        
         with open("search/"+search_pass_name+"/utility_scratchpad.json", "r") as f:
             utility_scratchpad = json.load(f)
 
@@ -552,10 +605,49 @@ if __name__ == "__main__":
                 results[i] = utility_scratchpad["candidate_"+str(i)]
                 assert results[i] == utility_scratchpad["candidate_"+str(i)+"_history"][-1]
         
-        # Update candidate scores
+        # Direct comparison between old and new versions
+        log_with_flush("=== DIRECT COMPARISON BETWEEN ITERATIONS ===")
+        log_with_flush("Comparing old and new versions of each candidate...")
+        
+        # Create a mapping from candidate index to its result index
+        new_result_map = {}
+        for idx, candidate_idx in enumerate(new_candidate_indices):
+            new_result_map[candidate_idx] = idx
+        
         for i in range(len(candidate_paths)):
-            utility_scratchpad["candidate_" + str(i)] = results[i]
-            utility_scratchpad["candidate_" + str(i) + "_history"].append(results[i])
+            new_candidate_path = os.path.join("search", search_pass_name, "candidate_"+str(i)+"_new")
+            old_candidate_path = os.path.join("search", search_pass_name, "candidate_"+str(i))
+            
+            if os.path.exists(new_candidate_path) and i in new_result_map:
+                new_score = new_results[new_result_map[i]]
+                old_score = results[i]
+                
+                if new_score is None:
+                    # If evaluation was skipped, assume no improvement
+                    log_with_flush(f"Candidate_{i} evaluation skipped, keeping old version")
+                    shutil.rmtree(new_candidate_path)
+                    utility_scratchpad["candidate_" + str(i)] = old_score
+                    utility_scratchpad["candidate_" + str(i) + "_history"].append(old_score)
+                elif new_score > old_score:
+                    # New version is better, replace old with new
+                    log_with_flush(f"ITERATION COMPARISON: Candidate_{i} improved: {old_score} -> {new_score}")
+                    log_with_flush(f"KEEPING new version of Candidate_{i} (iteration {len(utility_scratchpad['candidate_' + str(i) + '_history'])+1})")
+                    shutil.rmtree(old_candidate_path)
+                    os.rename(new_candidate_path, old_candidate_path)
+                    utility_scratchpad["candidate_" + str(i)] = new_score
+                    utility_scratchpad["candidate_" + str(i) + "_history"].append(new_score)
+                    results[i] = new_score  # Update results for best/worst tracking
+                else:
+                    # Old version is better or equal, discard new
+                    log_with_flush(f"ITERATION COMPARISON: Candidate_{i} did not improve: {old_score} vs {new_score}")
+                    log_with_flush(f"KEEPING old version of Candidate_{i} (iteration {len(utility_scratchpad['candidate_' + str(i) + '_history'])})")
+                    shutil.rmtree(new_candidate_path)
+                    utility_scratchpad["candidate_" + str(i)] = old_score
+                    utility_scratchpad["candidate_" + str(i) + "_history"].append(old_score)
+            else:
+                # No new version exists (possibly due to restart or other reasons)
+                utility_scratchpad["candidate_" + str(i)] = results[i]
+                utility_scratchpad["candidate_" + str(i) + "_history"].append(results[i])
         
         # Best model update
         if max(results) > utility_scratchpad["best"]:

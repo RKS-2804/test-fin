@@ -1,16 +1,16 @@
 #!/bin/bash
 
 # Set the domain list
-domain_list="nlgraph"
+domain_list="math"
 
 # Set the name for the search
-name="nlgraph_bwr"
+name="math_bwr"
 
 # Set the evaluation type
 eval_type="exact_match"
 
 # Set the dataset
-dataset="nlgraph"
+dataset="gsm8k"
 
 # Set the base model
 base_model="google/gemma-7b-it"
