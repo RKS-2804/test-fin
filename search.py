@@ -9,6 +9,7 @@ import random
 import logging
 import datetime
 import wandb
+import sys
 from overall_metrics import overall_metrics
 from merge import lora_merge, MergeMethod
 from evaluate import evaluate, evaluate_test, update_only_one_or_two, lora_weight_visualize
@@ -17,6 +18,11 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 from datasets import load_dataset
 from trl import SFTConfig, SFTTrainer, DataCollatorForCompletionOnlyLM
 from peft import LoraConfig
+
+# Print GPU information at startup
+available_gpus = torch.cuda.device_count()
+gpu_ids = list(range(available_gpus))
+print(f"[INFO] Available GPUs: {available_gpus} (IDs: {gpu_ids})")
 
 def log_with_flush(message, level=logging.INFO):
     """Log a message and flush the log handler."""
@@ -339,7 +345,39 @@ if __name__ == "__main__":
     # Configure logging to write to a file
     logging.basicConfig(filename=os.path.join("search", search_pass_name, "log.txt"), level=logging.DEBUG)
 
-    gpus = [int(gpu) for gpu in gpus.split(",")]
+    # Parse GPU IDs and validate against available GPUs
+    available_gpu_count = torch.cuda.device_count()
+    available_gpu_ids = list(range(available_gpu_count))
+    log_with_flush(f"Available GPUs: {available_gpu_count} (IDs: {available_gpu_ids})")
+    
+    # Parse requested GPUs
+    try:
+        if isinstance(gpus, list):
+            requested_gpus = [int(gpu) for gpu in gpus]
+        else:
+            requested_gpus = [int(gpu) for gpu in gpus.split(",") if gpu.strip()]
+        log_with_flush(f"Requested GPUs: {requested_gpus}")
+    except ValueError as e:
+        log_with_flush(f"ERROR: Invalid GPU specification: {gpus}. Must be comma-separated integers.")
+        log_with_flush(f"Defaulting to GPU 0 if available.")
+        requested_gpus = [0]
+    
+    # Filter to only use available GPUs
+    valid_gpus = [gpu for gpu in requested_gpus if gpu < available_gpu_count]
+    invalid_gpus = [gpu for gpu in requested_gpus if gpu >= available_gpu_count]
+    
+    if invalid_gpus:
+        log_with_flush(f"WARNING: Requested GPU IDs {invalid_gpus} are not available and will be ignored.")
+    
+    if not valid_gpus:
+        log_with_flush("WARNING: No valid GPUs specified. Defaulting to GPU 0 if available.")
+        valid_gpus = [0] if available_gpu_count > 0 else []
+        if not valid_gpus:
+            log_with_flush("ERROR: No GPUs available on this system!")
+            sys.exit(1)
+    
+    gpus = valid_gpus
+    log_with_flush(f"Using GPUs: {gpus}")
     candidate_paths = []
     for candidate_path in os.listdir(initial_expert_directory):
         if os.path.isdir(os.path.join(initial_expert_directory, candidate_path)):

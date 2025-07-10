@@ -15,8 +15,8 @@ base_model="mistralai/Mistral-7B-v0.1"
 # Set the project name for wandb
 project_name="bwr_hindi_math"
 
-# Set the GPUs to use - adjust based on your available GPUs
-gpus="0,1,2,3,4"
+# Set the GPUs to use - automatically detect available GPUs
+gpus="0"  # Default to just GPU 0 which is available according to logs
 
 # Run the search
 python search.py \

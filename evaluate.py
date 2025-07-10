@@ -4,6 +4,7 @@ import time
 import torch
 import datetime
 import numpy as np
+import sys
 from tqdm import tqdm
 from datasets import load_dataset
 from tenacity import retry, wait_random_exponential, stop_after_attempt
@@ -13,6 +14,16 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 from safetensors.torch import load_file, save_file
 import random
 import warnings
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
+
+# Print GPU information at startup
+available_gpus = torch.cuda.device_count()
+gpu_ids = list(range(available_gpus))
+print(f"[INFO] Available GPUs: {available_gpus} (IDs: {gpu_ids})")
 
 # Global variables
 ICL_PROMPT = None
@@ -250,6 +261,32 @@ def batch_generate(model, tokenizer, prompts, gpu_id, batch_size=10, max_new_tok
     
     return outputs
 
+def validate_gpu_id(gpu_id):
+    """
+    Validate that the requested GPU ID is available on the system.
+    
+    Args:
+        gpu_id (int): The GPU ID to validate
+        
+    Returns:
+        int: A valid GPU ID (either the requested one or GPU 0 as fallback)
+        
+    Raises:
+        RuntimeError: If no GPUs are available on the system
+    """
+    available_gpu_count = torch.cuda.device_count()
+    available_gpu_ids = list(range(available_gpu_count))
+    
+    if available_gpu_count == 0:
+        raise RuntimeError("No GPUs available on this system. Cannot proceed with evaluation.")
+    
+    if gpu_id >= available_gpu_count:
+        logger.warning(f"Invalid GPU ID: {gpu_id}. Only {available_gpu_count} GPUs available (IDs: {available_gpu_ids})")
+        logger.warning(f"Falling back to GPU 0")
+        return 0
+    
+    return gpu_id
+
 def evaluate(model_path, eval_type, dataset, gpu_id, base_model="google/gemma-7b-it", save_dev_flag=False, only_one_or_two=None, skip_flag=False):
     """
     Evaluate a model on a dataset.
@@ -273,17 +310,90 @@ def evaluate(model_path, eval_type, dataset, gpu_id, base_model="google/gemma-7b
     global model
     global tokenizer
     only_one_or_two = ONLY_ONE_OR_TWO
+    
     try:
+        # Validate GPU ID before attempting to use it
+        valid_gpu_id = validate_gpu_id(gpu_id)
+        if valid_gpu_id != gpu_id:
+            logger.info(f"Using GPU {valid_gpu_id} instead of requested GPU {gpu_id}")
+            gpu_id = valid_gpu_id
+            
+        logger.info(f"Loading model on GPU {gpu_id}")
         model = AutoModelForCausalLM.from_pretrained(base_model, torch_dtype=torch.float16)
-        model.load_adapter(model_path)
+        
+        # Try to load the adapter with dimension mismatch handling
+        try:
+            logger.info(f"Loading adapter from {model_path}")
+            model.load_adapter(model_path)
+        except RuntimeError as e:
+            if "size mismatch" in str(e):
+                logger.warning(f"Dimension mismatch detected when loading adapter: {str(e)}")
+                logger.warning(f"Attempting to load adapter with dimension mismatch handling...")
+                
+                # Load adapter state dict manually
+                from safetensors.torch import load_file
+                import os
+                
+                adapter_path = os.path.join(model_path, "adapter_model.safetensors")
+                if os.path.exists(adapter_path):
+                    # Load adapter state dict
+                    adapter_state_dict = load_file(adapter_path)
+                    
+                    # Get model state dict for reference
+                    model_state_dict = model.state_dict()
+                    
+                    # Create a filtered state dict with only compatible tensors
+                    filtered_state_dict = {}
+                    skipped_keys = []
+                    
+                    for key, tensor in adapter_state_dict.items():
+                        if key in model_state_dict:
+                            if model_state_dict[key].shape == tensor.shape:
+                                filtered_state_dict[key] = tensor
+                            else:
+                                skipped_keys.append(key)
+                                logger.warning(f"Skipping incompatible tensor: {key}, "
+                                              f"adapter shape: {tensor.shape}, "
+                                              f"model shape: {model_state_dict[key].shape}")
+                    
+                    # Load the filtered state dict
+                    logger.info(f"Loading filtered adapter state dict with {len(filtered_state_dict)} compatible tensors")
+                    logger.info(f"Skipped {len(skipped_keys)} incompatible tensors")
+                    
+                    # Use strict=False to ignore missing keys
+                    missing_keys, unexpected_keys = model.load_state_dict(filtered_state_dict, strict=False)
+                    logger.info(f"Missing keys: {len(missing_keys)}, Unexpected keys: {len(unexpected_keys)}")
+                else:
+                    logger.error(f"Adapter file not found at {adapter_path}")
+                    raise FileNotFoundError(f"Adapter file not found at {adapter_path}")
+            else:
+                # Re-raise if it's not a size mismatch error
+                raise
+        
         model.to(f"cuda:{gpu_id}")
         tokenizer = AutoTokenizer.from_pretrained(base_model)
-    except:
-        del model
-        del tokenizer
-        model = AutoModelForCausalLM.from_pretrained(model_path, torch_dtype=torch.float16)
-        model.to(f"cuda:{gpu_id}")
-        tokenizer = AutoTokenizer.from_pretrained(model_path)
+    except RuntimeError as e:
+        if "CUDA out of memory" in str(e):
+            logger.error(f"CUDA out of memory on GPU {gpu_id}. Try using a different GPU or reducing batch size.")
+            sys.exit(1)
+        elif "invalid device ordinal" in str(e).lower():
+            logger.error(f"Invalid device ordinal. GPU {gpu_id} does not exist. Available GPUs: {list(range(torch.cuda.device_count()))}")
+            sys.exit(1)
+        else:
+            logger.error(f"Error loading model: {str(e)}")
+            raise
+    except Exception as e:
+        logger.error(f"Error loading model: {str(e)}")
+        try:
+            del model
+            del tokenizer
+            logger.info(f"Attempting to load model directly from path on GPU {gpu_id}")
+            model = AutoModelForCausalLM.from_pretrained(model_path, torch_dtype=torch.float16)
+            model.to(f"cuda:{gpu_id}")
+            tokenizer = AutoTokenizer.from_pretrained(model_path)
+        except Exception as e2:
+            logger.error(f"Second attempt to load model failed: {str(e2)}")
+            raise
     tokenizer.pad_token = tokenizer.eos_token
 
     # Task 1: single task, multiple choice questions
@@ -406,16 +516,88 @@ def evaluate_test(model_path, eval_type, dataset, gpu_id, base_model="google/gem
     only_one_or_two = ONLY_ONE_OR_TWO
 
     try:
+        # Validate GPU ID before attempting to use it
+        valid_gpu_id = validate_gpu_id(gpu_id)
+        if valid_gpu_id != gpu_id:
+            logger.info(f"Using GPU {valid_gpu_id} instead of requested GPU {gpu_id}")
+            gpu_id = valid_gpu_id
+            
+        logger.info(f"Loading model for test evaluation on GPU {gpu_id}")
         model = AutoModelForCausalLM.from_pretrained(base_model, torch_dtype=torch.float16)
-        model.load_adapter(model_path)
+        
+        # Try to load the adapter with dimension mismatch handling
+        try:
+            logger.info(f"Loading adapter from {model_path} for test evaluation")
+            model.load_adapter(model_path)
+        except RuntimeError as e:
+            if "size mismatch" in str(e):
+                logger.warning(f"Dimension mismatch detected when loading adapter for test: {str(e)}")
+                logger.warning(f"Attempting to load adapter with dimension mismatch handling...")
+                
+                # Load adapter state dict manually
+                from safetensors.torch import load_file
+                import os
+                
+                adapter_path = os.path.join(model_path, "adapter_model.safetensors")
+                if os.path.exists(adapter_path):
+                    # Load adapter state dict
+                    adapter_state_dict = load_file(adapter_path)
+                    
+                    # Get model state dict for reference
+                    model_state_dict = model.state_dict()
+                    
+                    # Create a filtered state dict with only compatible tensors
+                    filtered_state_dict = {}
+                    skipped_keys = []
+                    
+                    for key, tensor in adapter_state_dict.items():
+                        if key in model_state_dict:
+                            if model_state_dict[key].shape == tensor.shape:
+                                filtered_state_dict[key] = tensor
+                            else:
+                                skipped_keys.append(key)
+                                logger.warning(f"Skipping incompatible tensor: {key}, "
+                                              f"adapter shape: {tensor.shape}, "
+                                              f"model shape: {model_state_dict[key].shape}")
+                    
+                    # Load the filtered state dict
+                    logger.info(f"Loading filtered adapter state dict with {len(filtered_state_dict)} compatible tensors")
+                    logger.info(f"Skipped {len(skipped_keys)} incompatible tensors")
+                    
+                    # Use strict=False to ignore missing keys
+                    missing_keys, unexpected_keys = model.load_state_dict(filtered_state_dict, strict=False)
+                    logger.info(f"Missing keys: {len(missing_keys)}, Unexpected keys: {len(unexpected_keys)}")
+                else:
+                    logger.error(f"Adapter file not found at {adapter_path}")
+                    raise FileNotFoundError(f"Adapter file not found at {adapter_path}")
+            else:
+                # Re-raise if it's not a size mismatch error
+                raise
+        
         model.to(f"cuda:{gpu_id}")
         tokenizer = AutoTokenizer.from_pretrained(base_model)
-    except:
-        del model
-        del tokenizer
-        model = AutoModelForCausalLM.from_pretrained(model_path, torch_dtype=torch.float16)
-        model.to(f"cuda:{gpu_id}")
-        tokenizer = AutoTokenizer.from_pretrained(model_path)
+    except RuntimeError as e:
+        if "CUDA out of memory" in str(e):
+            logger.error(f"CUDA out of memory on GPU {gpu_id}. Try using a different GPU or reducing batch size.")
+            sys.exit(1)
+        elif "invalid device ordinal" in str(e).lower():
+            logger.error(f"Invalid device ordinal. GPU {gpu_id} does not exist. Available GPUs: {list(range(torch.cuda.device_count()))}")
+            sys.exit(1)
+        else:
+            logger.error(f"Error loading model for test evaluation: {str(e)}")
+            raise
+    except Exception as e:
+        logger.error(f"Error loading model for test evaluation: {str(e)}")
+        try:
+            del model
+            del tokenizer
+            logger.info(f"Attempting to load model directly from path on GPU {gpu_id}")
+            model = AutoModelForCausalLM.from_pretrained(model_path, torch_dtype=torch.float16)
+            model.to(f"cuda:{gpu_id}")
+            tokenizer = AutoTokenizer.from_pretrained(model_path)
+        except Exception as e2:
+            logger.error(f"Second attempt to load model failed: {str(e2)}")
+            raise
     tokenizer.pad_token = tokenizer.eos_token
 
     # Task 1: single task, multiple choice questions

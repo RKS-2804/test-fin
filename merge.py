@@ -90,11 +90,16 @@ def lora_merge(weights, lora_name_list, output_name, gpu_id, directly_load_safet
             os.mkdir(output_name)
         save_file(final_state_dict, os.path.join(output_name, "adapter_model.safetensors"))
         
+        # Copy adapter_config.json from the first source model to ensure model_type is preserved
+        source_config_path = os.path.join(lora_name_list[0], "adapter_config.json")
+        if os.path.exists(source_config_path):
+            shutil.copy(source_config_path, os.path.join(output_name, "adapter_config.json"))
+        
         return final_state_dict
 
 def weighted_average_merge(state_dicts: List[Dict[str, torch.Tensor]], weights: List[float]) -> Dict[str, torch.Tensor]:
     """
-    Merge state dictionaries using weighted average.
+    Merge state dictionaries using weighted average, handling tensor size mismatches.
     
     Args:
         state_dicts: List of state dictionaries to merge
@@ -104,21 +109,48 @@ def weighted_average_merge(state_dicts: List[Dict[str, torch.Tensor]], weights: 
         Merged state dictionary
     """
     final_state_dict = {}
+    incompatible_keys = set()
+    reference_shapes = {}
+    
+    # First pass: Initialize final_state_dict with the first state_dict and record tensor shapes
+    for key in state_dicts[0].keys():
+        final_state_dict[key] = weights[0] * state_dicts[0][key]
+        reference_shapes[key] = state_dicts[0][key].shape
+    
+    # Second pass: Add weighted tensors, handling dimension mismatches
     for i, state_dict in enumerate(state_dicts):
         if i == 0:
-            for key in state_dict.keys():
-                final_state_dict[key] = weights[i] * state_dict[key]
-        else:
-            for key in state_dict.keys():
-                assert key in final_state_dict.keys(), f"Key {key} not found in final state dict"
-                final_state_dict[key] += weights[i] * state_dict[key]
+            continue  # Already processed
+            
+        for key in state_dict.keys():
+            if key not in final_state_dict:
+                print(f"Warning: Key {key} found in state_dict {i} but not in the first state_dict. Skipping.")
+                continue
+                
+            # Check if tensor shapes are compatible
+            if state_dict[key].shape != reference_shapes[key]:
+                # If this is the first time we've seen this incompatible key, log it
+                if key not in incompatible_keys:
+                    print(f"Warning: Shape mismatch for key {key}. "
+                          f"Reference shape: {reference_shapes[key]}, "
+                          f"State dict {i} shape: {state_dict[key].shape}. "
+                          f"Skipping this tensor for merge.")
+                    incompatible_keys.add(key)
+                continue
+                
+            # Add weighted tensor if shapes match
+            final_state_dict[key] += weights[i] * state_dict[key]
+    
+    # Report summary of incompatible keys
+    if incompatible_keys:
+        print(f"Completed merge with {len(incompatible_keys)} incompatible keys skipped: {incompatible_keys}")
     
     return final_state_dict
 
 def task_arithmetic_merge(state_dicts: List[Dict[str, torch.Tensor]], weights: List[float],
                           base_model_idx: int = 0) -> Dict[str, torch.Tensor]:
     """
-    Merge state dictionaries using task arithmetic.
+    Merge state dictionaries using task arithmetic, handling tensor size mismatches.
     
     Args:
         state_dicts: List of state dictionaries to merge
@@ -130,6 +162,7 @@ def task_arithmetic_merge(state_dicts: List[Dict[str, torch.Tensor]], weights: L
     """
     # Extract the base model state dict
     base_state_dict = state_dicts[base_model_idx]
+    incompatible_keys = set()
     
     # Build task vectors (differences between each model and the base model)
     task_vectors = []
@@ -140,6 +173,15 @@ def task_arithmetic_merge(state_dicts: List[Dict[str, torch.Tensor]], weights: L
         task_vector = {}
         for key in base_state_dict.keys():
             if key in state_dict:
+                # Check if tensor shapes are compatible
+                if state_dict[key].shape != base_state_dict[key].shape:
+                    if key not in incompatible_keys:
+                        print(f"Warning: Shape mismatch for key {key} in model {i}. "
+                              f"Base shape: {base_state_dict[key].shape}, "
+                              f"Model {i} shape: {state_dict[key].shape}. "
+                              f"Skipping this tensor for task vector calculation.")
+                        incompatible_keys.add(key)
+                    continue
                 task_vector[key] = state_dict[key] - base_state_dict[key]
         
         task_vectors.append((task_vector, weights[i]))
@@ -152,12 +194,16 @@ def task_arithmetic_merge(state_dicts: List[Dict[str, torch.Tensor]], weights: L
             if key in task_vector:
                 final_state_dict[key] += weight * task_vector[key]
     
+    # Report summary of incompatible keys
+    if incompatible_keys:
+        print(f"Completed task arithmetic merge with {len(incompatible_keys)} incompatible keys skipped: {incompatible_keys}")
+    
     return final_state_dict
 
 def ties_merge(state_dicts: List[Dict[str, torch.Tensor]], weights: List[float],
                threshold: float = 0.01) -> Dict[str, torch.Tensor]:
     """
-    Merge state dictionaries using TIES merging method.
+    Merge state dictionaries using TIES merging method, handling tensor size mismatches.
     
     Args:
         state_dicts: List of state dictionaries to merge
@@ -176,9 +222,29 @@ def ties_merge(state_dicts: List[Dict[str, torch.Tensor]], weights: List[float],
             param[minimal_change_mask] = 0.0
         processed_dicts.append(processed_dict)
     
-    # Step 2: Resolve sign conflicts
+    # Identify common keys with compatible shapes
+    reference_shapes = {k: v.shape for k, v in processed_dicts[0].items()}
+    compatible_keys = set(reference_shapes.keys())
+    
+    for i, state_dict in enumerate(processed_dicts[1:], 1):
+        for key in list(compatible_keys):
+            if key not in state_dict:
+                compatible_keys.remove(key)
+                print(f"Warning: Key {key} not found in state_dict {i}. Removing from compatible keys.")
+            elif state_dict[key].shape != reference_shapes[key]:
+                compatible_keys.remove(key)
+                print(f"Warning: Shape mismatch for key {key}. "
+                      f"Reference shape: {reference_shapes[key]}, "
+                      f"State dict {i} shape: {state_dict[key].shape}. "
+                      f"Removing from compatible keys.")
+    
+    incompatible_keys = set(reference_shapes.keys()) - compatible_keys
+    if incompatible_keys:
+        print(f"Found {len(incompatible_keys)} incompatible keys that will be skipped in TIES merge.")
+    
+    # Step 2: Resolve sign conflicts (only for compatible keys)
     final_state_dict = {}
-    for key in processed_dicts[0].keys():
+    for key in compatible_keys:
         # Stack parameters from all models for this key
         stacked_params = torch.stack([state_dict[key] for state_dict in processed_dicts])
         
@@ -191,10 +257,18 @@ def ties_merge(state_dicts: List[Dict[str, torch.Tensor]], weights: List[float],
         final_state_dict[key] = resolved_params
     
     # Step 3: Merge aligned parameters
-    for key in final_state_dict.keys():
+    for key in compatible_keys:
         stacked_params = torch.stack([state_dict[key] for state_dict in processed_dicts])
         alignment_mask = torch.prod(torch.sign(stacked_params), dim=0) > 0
         final_state_dict[key] = final_state_dict[key] * alignment_mask.float()
+    
+    # For incompatible keys, use values from the first state dict
+    for key in incompatible_keys:
+        final_state_dict[key] = processed_dicts[0][key]
+    
+    # Report summary
+    if incompatible_keys:
+        print(f"Completed TIES merge with {len(incompatible_keys)} incompatible keys using first state dict values: {incompatible_keys}")
     
     return final_state_dict
 
@@ -202,7 +276,7 @@ def dare_merge(state_dicts: List[Dict[str, torch.Tensor]], weights: List[float],
                threshold: float = 0.01, amplification_factor: float = 2.0,
                base_model_idx: int = 0) -> Dict[str, torch.Tensor]:
     """
-    Merge state dictionaries using DARE merging method.
+    Merge state dictionaries using DARE merging method, handling tensor size mismatches.
     
     Args:
         state_dicts: List of state dictionaries to merge
@@ -220,6 +294,9 @@ def dare_merge(state_dicts: List[Dict[str, torch.Tensor]], weights: List[float],
     # Create a copy of the base state dict for the result
     final_state_dict = {k: v.clone() for k, v in base_state_dict.items()}
     
+    # Track incompatible keys
+    incompatible_keys = set()
+    
     # Process each fine-tuned model
     for i, state_dict in enumerate(state_dicts):
         if i == base_model_idx:
@@ -228,6 +305,16 @@ def dare_merge(state_dicts: List[Dict[str, torch.Tensor]], weights: List[float],
         # Apply DARE method
         for key in final_state_dict.keys():
             if key in state_dict:
+                # Check if tensor shapes are compatible
+                if state_dict[key].shape != base_state_dict[key].shape:
+                    if key not in incompatible_keys:
+                        print(f"Warning: Shape mismatch for key {key} in model {i}. "
+                              f"Base shape: {base_state_dict[key].shape}, "
+                              f"Model {i} shape: {state_dict[key].shape}. "
+                              f"Skipping this tensor for DARE merge.")
+                        incompatible_keys.add(key)
+                    continue
+                
                 # Calculate difference between fine-tuned and base model
                 difference = state_dict[key] - base_state_dict[key]
                 
@@ -238,6 +325,10 @@ def dare_merge(state_dicts: List[Dict[str, torch.Tensor]], weights: List[float],
                 
                 # Update the final state dict
                 final_state_dict[key] += difference
+    
+    # Report summary of incompatible keys
+    if incompatible_keys:
+        print(f"Completed DARE merge with {len(incompatible_keys)} incompatible keys skipped: {incompatible_keys}")
     
     return final_state_dict
 # Example usage:

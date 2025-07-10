@@ -1,6 +1,8 @@
 # Core dependencies
-torch>=2.0.0
-transformers>=4.30.0
+#torch>=2.0.0
+#transformers>=4.30.0
+#Core dependencies
+transformers
 peft>=0.4.0
 accelerate>=0.20.0
 bitsandbytes>=0.40.0
@@ -24,4 +26,4 @@ matplotlib>=3.7.1
 seaborn>=0.12.2
 
 # Optional: For better performance with large models
-flash-attn>=2.0.0; platform_system != "Windows"
+flash-attn>=2.0.0; platform_system != "Linux"

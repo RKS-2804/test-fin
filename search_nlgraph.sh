@@ -19,7 +19,7 @@ base_model="google/gemma-7b-it"
 project_name="bwr"
 
 # Set the GPUs to use
-gpus="0,1,2,3,4"
+gpus="0"
 
 # Run the search
 python search.py \

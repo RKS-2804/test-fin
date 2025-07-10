@@ -137,6 +137,6 @@ If BWR_model is helpful to you:
 ```
 @article{bwr_model2025,
   title={BWR_model: Collaborative Search to Adapt LLM Experts via Best-Worst-Random Algorithm},
-  author={Your Name},
+  author={Ravi},
   year={2025}
 }
