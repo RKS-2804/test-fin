@@ -18,6 +18,8 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 from datasets import load_dataset
 from trl import SFTConfig, SFTTrainer, DataCollatorForCompletionOnlyLM
 from peft import LoraConfig
+from safetensors.torch import load_file, save_file
+import torch
 
 # Print GPU information at startup
 available_gpus = torch.cuda.device_count()
@@ -181,7 +183,7 @@ def candidate_update(i, gpu_id, search_pass_name, fast_merge, step_length, resta
     temp_path = os.path.join("search", search_pass_name, "temp_"+str(i))
     os.makedirs(temp_path, exist_ok=True)
     
-    if r4 > 0.5:
+    if r4 > 0.2:
         # BWR update formula 1: New = Current + r1 * (Best - T * Random) - r2 * (Worst - Random)
         
         # First part: r1 * (Best - T * Random)
@@ -225,29 +227,27 @@ def candidate_update(i, gpu_id, search_pass_name, fast_merge, step_length, resta
         shutil.rmtree(candidate_path)
         os.rename(candidate_path + "_new", candidate_path)
     else:
-        # BWR update formula 2: New = Random * r3
-        # This is a random reset within bounds
+        # === BWR exploration per Eq. (4): V' = U - (U-L)*r3 ===
+        # We take L = -max_abs, U = +max_abs from a reference adapter (random_candidate_path)
         
-        # Create a new model with random perturbation
-        lora_merge(
-            weights = [r3],
-            lora_name_list = [random_candidate_path],
-            output_name = candidate_path + "_new",
-            gpu_id = gpu_id,
-            directly_load_safetensors = fast_merge,
-            merge_method = merge_method,
-            merge_params = merge_params
+ 
+        # 1) Load one safetensors to get shapes and a max‐abs bound
+        sd = load_file(
+            os.path.join(random_candidate_path, "adapter_model.safetensors"),
+            device="cpu"
         )
-        
-        # Replace the current model with the new one
-        shutil.rmtree(candidate_path)
-        os.rename(candidate_path + "_new", candidate_path)
-    
-    # Clean up temporary files
-    try:
-        shutil.rmtree(temp_path)
-    except:
-        pass
+        new_sd = {}
+        for name, tensor in sd.items():
+            max_abs = float(tensor.abs().max())
+            L, U = -max_abs, +max_abs
+            # Sample uniformly in [L, U]
+            new_sd[name] = torch.empty_like(tensor).uniform_(L, U)
+ 
+        # 2) Write out the brand-new random adapter into candidate_path
+        if os.path.exists(candidate_path):
+            shutil.rmtree(candidate_path)
+        os.makedirs(candidate_path, exist_ok=True)
+        save_file(new_sd, os.path.join(candidate_path, "adapter_model.safetensors"))
 
 if __name__ == "__main__":
     argParser = argparse.ArgumentParser()
