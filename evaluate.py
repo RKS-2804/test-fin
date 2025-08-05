@@ -7,7 +7,6 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 from datasets import load_dataset
 import random
 from sklearn.decomposition import PCA
-import re
 
 # Global variable for multitask optimization
 ONLY_ONE_OR_TWO = None
@@ -16,18 +15,6 @@ def update_only_one_or_two(only_one_or_two):
     """Update the global variable for multitask optimization."""
     global ONLY_ONE_OR_TWO
     ONLY_ONE_OR_TWO = only_one_or_two
-
-def extract_json_from_text(text):
-    """Extract JSON object from generated text."""
-    # Find anything that looks like a JSON object
-    json_match = re.search(r'\{[\s\S]*\}', text)
-    if json_match:
-        json_str = json_match.group(0)
-        try:
-            return json.loads(json_str)
-        except json.JSONDecodeError:
-            return None
-    return None
 
 def evaluate(model_path, eval_type, dataset, gpu_id, base_model, save_preds=False, suffix=None, 
              skip_flag=False, fitness_function="accuracy"):
@@ -49,22 +36,26 @@ def evaluate(model_path, eval_type, dataset, gpu_id, base_model, save_preds=Fals
             split_name = "test" if suffix and "_test" in suffix else "dev"
             split_data = data[split_name]
             
-            # Extract texts and labels from your custom format
+            # Handle both possible field names (label or lable)
             texts = [item["prompt"] for item in split_data]
-            
-            # Handle the "lable" field (with typo)
             labels = []
-            for item in split_data:
-                if isinstance(item["lable"], str):
-                    labels.append(1 if item["lable"].lower() in ["1", "true", "yes"] else 0)
-                else:
-                    labels.append(1 if item["lable"] else 0)
             
-            # Keep the options handling the same (if needed)
+            for item in split_data:
+                label_field = "label" if "label" in item else "lable"
+                if label_field in item:
+                    if isinstance(item[label_field], str):
+                        labels.append(1 if item[label_field].lower() in ["1", "true", "yes"] else 0)
+                    else:
+                        labels.append(1 if item[label_field] else 0)
+                else:
+                    # Default to 0 if missing
+                    labels.append(0)
+            
+            # Keep the options handling
             options = data.get("options", None)
         except Exception as e:
             print(f"Error loading dataset: data/eval/{dataset}.json")
-            print(f"Error details: {e}")
+            print(f"Error details: {str(e)}")
             return 0
         
         # Load model and tokenizer
@@ -88,7 +79,7 @@ def evaluate(model_path, eval_type, dataset, gpu_id, base_model, save_preds=Fals
         with torch.no_grad():
             for i, text in enumerate(texts):
                 if options is not None:
-                    # Multiple choice prediction (keep original implementation)
+                    # Multiple choice prediction
                     scores = []
                     for option in options[i]:
                         prompt = text + "\n" + option
@@ -100,45 +91,38 @@ def evaluate(model_path, eval_type, dataset, gpu_id, base_model, save_preds=Fals
                             output_scores=True
                         )
                         
+                        # Calculate likelihood score
                         token_id = outputs.sequences[0, -1].item()
                         score = outputs.scores[0][0, token_id].item()
                         scores.append(score)
                     
+                    # Predict the option with highest score
                     pred_idx = np.argmax(scores)
                     preds.append(pred_idx)
                     
-                    if len(options[i]) == 2:
+                    # Calculate softmax probabilities for ROC-AUC
+                    if len(options[i]) == 2:  # Binary classification
                         softmax_scores = torch.softmax(torch.tensor(scores), dim=0)
-                        probabilities.append(softmax_scores[1].item())
+                        probabilities.append(softmax_scores[1].item())  # Probability of positive class
                 else:
-                    # MODIFIED: Generate complete JSON response
+                    # Binary or multiclass prediction
                     inputs = tokenizer(text, return_tensors="pt").to(gpu_id)
-                    
-                    # Generate a longer response that includes the JSON
                     outputs = model.generate(
                         **inputs,
-                        max_new_tokens=512,  # Increased to capture full JSON response
-                        temperature=0.0,     # Deterministic output
-                        do_sample=False
+                        max_new_tokens=1,
+                        return_dict_in_generate=True,
+                        output_scores=True
                     )
                     
-                    # Decode the generated text
-                    generated_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
+                    # Get predicted token
+                    pred_token = tokenizer.decode(outputs.sequences[0, -1])
+                    preds.append(pred_token.strip())
                     
-                    # Extract JSON from generated text
-                    result_json = extract_json_from_text(generated_text)
-                    
-                    if result_json and "prediction" in result_json and "prob" in result_json:
-                        # Extract prediction (0 or 1)
-                        preds.append(result_json["prediction"])
-                        
-                        # Extract probability directly from the model output
-                        probabilities.append(float(result_json["prob"]))
-                    else:
-                        # Fallback if JSON extraction fails
-                        print(f"Warning: Failed to extract valid JSON from output for example {i}")
-                        preds.append(0)  # Default prediction
-                        probabilities.append(0.5)  # Default probability
+                    # If fraud detection, save probability for ROC-AUC
+                    if eval_type == "fraud_detection":
+                        yes_token_id = tokenizer.encode(" yes")[0]  # Assuming " yes" is the positive class token
+                        yes_prob = torch.softmax(outputs.scores[0][0], dim=0)[yes_token_id].item()
+                        probabilities.append(yes_prob)
         
         # Save predictions if needed
         if save_preds:
@@ -183,13 +167,14 @@ def evaluate(model_path, eval_type, dataset, gpu_id, base_model, save_preds=Fals
             # For other classification tasks, return accuracy
             return accuracy_score(labels, preds)
     
-    # Other evaluation types remain the same
     elif eval_type == "exact_match" or eval_type == "rm_default" or eval_type == "rm_verbose" or eval_type == "rm_concise":
         # Add implementation for other evaluation types
+        # ... (omitted for brevity)
         return 0.0
     
     elif eval_type == "perplexity" or eval_type == "multitask":
         # Add implementation for perplexity and multitask evaluation
+        # ... (omitted for brevity)
         return 0.0
     
     else:
@@ -200,27 +185,30 @@ def evaluate_test(model_path, eval_type, dataset, gpu_id, base_model, fitness_fu
     """
     Evaluate a model on the test set.
     """
+    # The suffix "_test" is important as it tells the evaluate function to use test data
     return evaluate(model_path, eval_type, dataset, gpu_id, base_model, True, "_test", False, fitness_function)
 
-# lora_weight_visualize function remains unchanged
 def lora_weight_visualize(lora_weight_path, num_components=2):
     """
     Visualize LoRA weights using PCA.
     """
-    # Implementation unchanged
+    # Load LoRA weights
     weights = torch.load(lora_weight_path, map_location="cpu")
     
+    # Flatten and concatenate all weights
     flattened_weights = []
     for name, weight in weights.items():
         if isinstance(weight, torch.Tensor):
             flattened_weights.append(weight.reshape(-1))
     
     if not flattened_weights:
-        return (0, 0)
+        return (0, 0)  # Default coordinates if no weights
     
     concatenated_weights = torch.cat(flattened_weights).numpy()
     
+    # Apply PCA
     pca = PCA(n_components=num_components)
     coords = pca.fit_transform([concatenated_weights])[0]
     
+    # Return coordinates as tuple
     return tuple(coords)

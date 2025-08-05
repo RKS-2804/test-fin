@@ -18,7 +18,7 @@ project_name="japan_finance"
 # Set the GPUs to use
 gpus="0"
 
-# Run the search
+# Run the simplified sequential JAYA search
 python jaya_search.py \
     -n $name \
     -e $eval_type \
@@ -26,8 +26,7 @@ python jaya_search.py \
     -g $gpus \
     -b $base_model \
     --project_name_wb $project_name \
-    --populate_initial_experts 1 \
-    --initial_experts_num 10 \
+    --initial_expert_directory "/workspace/test-fin/initial_experts" \
     --step_length 1 \
     --step_length_factor 0.95 \
     --minimum_step_length 0.1 \
@@ -38,8 +37,3 @@ python jaya_search.py \
     --fitness_function "combined" \
     -p 10 \
     -m 50
-
-# Note: fitness_function options:
-# - "roc_auc" - optimize only for ROC-AUC
-# - "mcc" - optimize only for Matthews Correlation Coefficient
-# - "combined" - optimize for weighted combination (0.2*acc + 0.5*roc_auc + 0.3*mcc)
