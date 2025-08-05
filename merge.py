@@ -331,22 +331,3 @@ def dare_merge(state_dicts: List[Dict[str, torch.Tensor]], weights: List[float],
         print(f"Completed DARE merge with {len(incompatible_keys)} incompatible keys skipped: {incompatible_keys}")
     
     return final_state_dict
-# Example usage:
-# Basic weighted average merge (original method)
-# lora_merge([0.3, 0.6, 0.8], ["./initial_experts/lima", "./initial_experts/cot", "./initial_experts/science"],
-#           "./new", 0, directly_load_safetensors=1)
-
-# Task arithmetic merge
-# lora_merge([0.3, 0.6, 0.8], ["./initial_experts/lima", "./initial_experts/cot", "./initial_experts/science"],
-#           "./new", 0, directly_load_safetensors=1, merge_method=MergeMethod.TASK_ARITHMETIC,
-#           merge_params={"base_model_idx": 0})
-
-# TIES merge
-# lora_merge([0.3, 0.6, 0.8], ["./initial_experts/lima", "./initial_experts/cot", "./initial_experts/science"],
-#           "./new", 0, directly_load_safetensors=1, merge_method=MergeMethod.TIES,
-#           merge_params={"threshold": 0.01})
-
-# DARE merge
-# lora_merge([0.3, 0.6, 0.8], ["./initial_experts/lima", "./initial_experts/cot", "./initial_experts/science"],
-#           "./new", 0, directly_load_safetensors=1, merge_method=MergeMethod.DARE,
-#           merge_params={"threshold": 0.01, "amplification_factor": 2.0, "base_model_idx": 0})

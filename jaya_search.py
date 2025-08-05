@@ -44,7 +44,7 @@ def assign_gpu(num_gpus, process_idx, total_processes):
     return gpu_idx
 
 # Initialize a directory in search/ for the JAYA model search
-def initialize_search_records(search_pass_name, candidate_paths, eval_type, dataset, gpus, base_model, fast_merge):
+def initialize_search_records(search_pass_name, candidate_paths, eval_type, dataset, gpus, base_model, fast_merge, fitness_function="accuracy"):
     """
     Initialize the search records directory structure and initial models.
     
@@ -56,6 +56,7 @@ def initialize_search_records(search_pass_name, candidate_paths, eval_type, data
         gpus (list): List of GPU IDs to use.
         base_model (str): Base model to use.
         fast_merge (int): Whether to use fast merge.
+        fitness_function (str): Fitness function to use (accuracy, roc_auc, mcc, or combined).
     """
     # Create directory structure
     for i in range(len(candidate_paths)):
@@ -64,8 +65,14 @@ def initialize_search_records(search_pass_name, candidate_paths, eval_type, data
     os.mkdir(os.path.join("search", search_pass_name, "best"))  # weights directly in this folder
     os.mkdir(os.path.join("search", search_pass_name, "worst"))  # weights directly in this folder
     
-    # Initialize utility scratchpad
-    utility_scratchpad = {"best": None, "worst": None, "history": []}
+    # Initialize utility scratchpad with fitness function information
+    utility_scratchpad = {
+        "best": None, 
+        "worst": None, 
+        "history": [],
+        "fitness_function": fitness_function
+    }
+    
     for i in range(len(candidate_paths)):
         utility_scratchpad[f"candidate_{i}"] = None
         utility_scratchpad[f"candidate_{i}_history"] = []
@@ -82,7 +89,7 @@ def initialize_search_records(search_pass_name, candidate_paths, eval_type, data
     for i in range(len(candidate_paths)):
         eval_args.append((os.path.join("search", search_pass_name, "candidate_"+str(i)),
                           eval_type, dataset, gpus[assign_gpu(len(gpus), i, len(candidate_paths))],
-                          base_model, True))
+                          base_model, True, None, False, fitness_function))
     
     pool = Pool(processes=len(gpus))
     results = pool.starmap(evaluate, eval_args, chunksize=math.ceil(len(candidate_paths)/len(gpus)))
@@ -301,7 +308,7 @@ def jaya_candidate_update(i, gpu_id, search_pass_name, fast_merge, step_length, 
 if __name__ == "__main__":
     argParser = argparse.ArgumentParser()
     argParser.add_argument("-n", "--name", help="name of this JAYA model search, also directory name in search/")
-    argParser.add_argument("-e", "--eval_type", help="evaluation types")  # multiple_choice, exact_match, multitask, rm_default, rm_verbose, rm_concise, human
+    argParser.add_argument("-e", "--eval_type", help="evaluation types")  # multiple_choice, exact_match, multitask, rm_default, rm_verbose, rm_concise, human, fraud_detection
     argParser.add_argument("-d", "--dataset", help="dataset as the search objective/evaluation")  # file names in data/eval, be mindful of using the right --eval_type
     argParser.add_argument("-g", "--gpus", help="available gpu ids in a string")  # such as 0,1,2,3,4
     argParser.add_argument("--num_cpu_when_merging", default=1, help="number of cpu cores when merging")
@@ -330,6 +337,8 @@ if __name__ == "__main__":
                           help="method to use for merging models: weighted_average, task_arithmetic, ties, dare")
     argParser.add_argument("--merge_params", default="{}",
                           help="JSON string of parameters for the merge method, e.g., '{\"threshold\": 0.01}'")
+    argParser.add_argument("--fitness_function", default="accuracy", 
+                          help="Fitness function to optimize: accuracy, roc_auc, mcc, or combined")
 
     args = argParser.parse_args()
     search_pass_name = args.name
@@ -363,6 +372,7 @@ if __name__ == "__main__":
     dropN = float(args.dropN)
     exploration_prob = float(args.exploration_prob)
     merge_method = args.merge_method
+    fitness_function = args.fitness_function
     try:
         merge_params = json.loads(args.merge_params)
     except json.JSONDecodeError:
@@ -396,6 +406,7 @@ if __name__ == "__main__":
     # Configure logging to write to a file
     logging.basicConfig(filename=os.path.join("search", search_pass_name, "log.txt"), level=logging.DEBUG)
     log_with_flush("=== JAYA ALGORITHM FOR MODEL OPTIMIZATION ===")
+    log_with_flush(f"Fitness function: {fitness_function}")
     log_with_flush(f"Exploration probability: {exploration_prob}")
     log_with_flush(f"Step length: {step_length}")
     log_with_flush(f"Step length factor: {step_length_factor}")
@@ -471,7 +482,7 @@ if __name__ == "__main__":
             candidate_trajectory[i] = []
 
     log_with_flush("JAYA: Initializing search... "+current_time_string())
-    initialize_search_records(search_pass_name, candidate_paths, eval_type, dataset, gpus, base_model, fast_merge)
+    initialize_search_records(search_pass_name, candidate_paths, eval_type, dataset, gpus, base_model, fast_merge, fitness_function)
     log_with_flush("JAYA: Search initialized")
     for i in range(len(candidate_paths)):
         log_with_flush("expert " + str(i) + ": " + candidate_paths[i])
@@ -485,7 +496,7 @@ if __name__ == "__main__":
         for i in range(len(candidate_paths)):
             eval_test_args.append((os.path.join("search", search_pass_name, "candidate_"+str(i)),
                                   eval_type, dataset, gpus[assign_gpu(len(gpus), i, len(candidate_paths))],
-                                  base_model))
+                                  base_model, fitness_function))
 
         pool = Pool(processes=len(gpus))
         results = pool.starmap(evaluate_test, eval_test_args, chunksize=math.ceil(len(candidate_paths)/len(gpus)))
@@ -593,11 +604,11 @@ if __name__ == "__main__":
             if not correctness_emergence:
                 eval_args.append((os.path.join("search", search_pass_name, "candidate_"+str(i)),
                                  eval_type, dataset, gpus[assign_gpu(len(gpus), i, len(candidate_paths))],
-                                 base_model, False, None, global_skip_flag or local_skip_flag))
+                                 base_model, False, None, global_skip_flag or local_skip_flag, fitness_function))
             else:
                 eval_args.append((os.path.join("search", search_pass_name, "candidate_"+str(i)),
                                  eval_type, dataset, gpus[assign_gpu(len(gpus), i, len(candidate_paths))],
-                                 base_model, True, None, global_skip_flag or local_skip_flag))
+                                 base_model, True, None, global_skip_flag or local_skip_flag, fitness_function))
         
         pool = Pool(processes=len(gpus))
         results = pool.starmap(evaluate, eval_args, chunksize=math.ceil(len(candidate_paths)/len(gpus)))
@@ -614,7 +625,7 @@ if __name__ == "__main__":
             if os.path.exists(new_candidate_path):
                 eval_new_args.append((new_candidate_path,
                                     eval_type, dataset, gpus[assign_gpu(len(gpus), i, len(candidate_paths))],
-                                    base_model, False, None, global_skip_flag or local_skip_flag))
+                                    base_model, False, None, global_skip_flag or local_skip_flag, fitness_function))
                 new_candidate_indices.append(i)
         
         # Only evaluate if there are new candidates
@@ -733,7 +744,7 @@ if __name__ == "__main__":
     for i in range(len(candidate_paths)):
         eval_args.append((os.path.join("search", search_pass_name, "candidate_"+str(i)),
                          eval_type, dataset, gpus[assign_gpu(len(gpus), i, len(candidate_paths))],
-                         base_model, True))
+                         base_model, True, None, False, fitness_function))
 
     pool = Pool(processes=len(gpus))
     results = pool.starmap(evaluate, eval_args, chunksize=math.ceil(len(candidate_paths)/len(gpus)))
@@ -745,7 +756,7 @@ if __name__ == "__main__":
     for i in range(len(candidate_paths)):
         eval_test_args.append((os.path.join("search", search_pass_name, "candidate_"+str(i)),
                               eval_type, dataset, gpus[assign_gpu(len(gpus), i, len(candidate_paths))],
-                              base_model))
+                              base_model, fitness_function))
 
     pool = Pool(processes=len(gpus))
     results = pool.starmap(evaluate_test, eval_test_args, chunksize=math.ceil(len(candidate_paths)/len(gpus)))
@@ -769,7 +780,7 @@ if __name__ == "__main__":
             eval_test_args.append((os.path.join("search", search_pass_name, "candidate_"+str(i)),
                                   "multiple_choice", dataset_1_name,
                                   gpus[assign_gpu(len(gpus), i, len(candidate_paths))],
-                                  base_model))
+                                  base_model, fitness_function))
         
         pool = Pool(processes=len(gpus))
         results = pool.starmap(evaluate_test, eval_test_args, chunksize=math.ceil(len(candidate_paths)/len(gpus)))
@@ -784,7 +795,7 @@ if __name__ == "__main__":
             eval_test_args.append((os.path.join("search", search_pass_name, "candidate_"+str(i)),
                                   "multiple_choice", dataset_2_name,
                                   gpus[assign_gpu(len(gpus), i, len(candidate_paths))],
-                                  base_model))
+                                  base_model, fitness_function))
         
         pool = Pool(processes=len(gpus))
         results = pool.starmap(evaluate_test, eval_test_args, chunksize=math.ceil(len(candidate_paths)/len(gpus)))
@@ -800,7 +811,7 @@ if __name__ == "__main__":
             eval_args.append((os.path.join("search", search_pass_name, "candidate_"+str(i)),
                               "multiple_choice", dataset_1_name,
                               gpus[assign_gpu(len(gpus), i, len(candidate_paths))],
-                              base_model))
+                              base_model, True, None, False, fitness_function))
         
         pool = Pool(processes=len(gpus))
         results = pool.starmap(evaluate, eval_args, chunksize=math.ceil(len(candidate_paths)/len(gpus)))
@@ -815,7 +826,7 @@ if __name__ == "__main__":
             eval_args.append((os.path.join("search", search_pass_name, "candidate_"+str(i)),
                               "multiple_choice", dataset_2_name,
                               gpus[assign_gpu(len(gpus), i, len(candidate_paths))],
-                              base_model))
+                              base_model, True, None, False, fitness_function))
 
         pool = Pool(processes=len(gpus))
         results = pool.starmap(evaluate, eval_args, chunksize=math.ceil(len(candidate_paths)/len(gpus)))
@@ -837,6 +848,14 @@ if __name__ == "__main__":
                       os.path.join("search", search_pass_name, "candidate_"+str(i), "golds.json"))
             os.rename(os.path.join("search", search_pass_name, "candidate_"+str(i), "preds_dev.json"),
                       os.path.join("search", search_pass_name, "candidate_"+str(i), "preds.json"))
+            
+            # Also rename probs file if it exists (for ROC-AUC calculation)
+            try:
+                os.remove(os.path.join("search", search_pass_name, "candidate_"+str(i), "probs.json"))
+                os.rename(os.path.join("search", search_pass_name, "candidate_"+str(i), "probs_dev.json"),
+                          os.path.join("search", search_pass_name, "candidate_"+str(i), "probs.json"))
+            except:
+                pass
     except:
         for i in range(len(candidate_paths)):
             os.remove(os.path.join("search", search_pass_name, "candidate_"+str(i), "scores.json"))
@@ -846,7 +865,11 @@ if __name__ == "__main__":
     final_metrics = overall_metrics(search_pass_name, eval_type)
     dev_final_metrics = {
         "starting_top-k_ensemble_dev_accuracy": final_metrics["starting_top-k_ensemble_test_accuracy"],
-        "ending_top-k_ensemble_dev_accuracy": final_metrics["ending_top-k_ensemble_test_accuracy"]
+        "ending_top-k_ensemble_dev_accuracy": final_metrics["ending_top-k_ensemble_test_accuracy"],
+        "starting_top-k_ensemble_dev_roc_auc": final_metrics.get("starting_top-k_ensemble_test_roc_auc", 0.5),
+        "ending_top-k_ensemble_dev_roc_auc": final_metrics.get("ending_top-k_ensemble_test_roc_auc", 0.5),
+        "starting_top-k_ensemble_dev_mcc": final_metrics.get("starting_top-k_ensemble_test_mcc", 0.0),
+        "ending_top-k_ensemble_dev_mcc": final_metrics.get("ending_top-k_ensemble_test_mcc", 0.0)
     }
     wandb.log(dev_final_metrics)
     log_with_flush("JAYA: Final ensemble metrics for dev: "+str(dev_final_metrics))
