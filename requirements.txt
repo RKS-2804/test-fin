@@ -28,3 +28,5 @@ seaborn>=0.12.2
 
 # Optional: For better performance with large models
 flash-attn>=2.0.0; platform_system != "Linux"
+
+trl

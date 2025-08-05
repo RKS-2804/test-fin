@@ -16,10 +16,18 @@ from evaluate import evaluate, evaluate_test, update_only_one_or_two, lora_weigh
 from multiprocessing import Pool
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from datasets import load_dataset
-from trl import SFTConfig, SFTTrainer, DataCollatorForCompletionOnlyLM
+from trl import SFTConfig, SFTTrainer
+from transformers import DataCollatorForLanguageModeling
+
+
 from peft import LoraConfig
 from safetensors.torch import load_file, save_file
 import torch
+
+# Create a compatibility class if needed
+class DataCollatorForCompletionOnlyLM(DataCollatorForLanguageModeling):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
 # Print GPU information at startup
 available_gpus = torch.cuda.device_count()
